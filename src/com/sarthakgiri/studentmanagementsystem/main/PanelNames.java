@@ -1,0 +1,10 @@
+public interface PanelNames {
+    public static final String LOGIN = "LOGIN";
+    public static final String USER_OPTIONS = "USER_OPTIONS";
+    public static final String CREATE_STUDENT = "CREATE_STUDENT";
+    public static final String UPDATE_STUDENT = "UPDATE_STUDENT";
+    public static final String READ_STUDENT = "READ_STUDENT";
+    public static final String DELETE_STUDENT = "DELETE_STUDENT";
+    public static final String SEARCH_STUDENT = "SEARCH_STUDENT";
+    public static final String STUDENT_STATS = "STUDENT_STATS";
+}
