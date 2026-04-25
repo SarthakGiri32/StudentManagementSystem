@@ -1,0 +1,10 @@
+{
+    "java.project.sourcePaths": [
+        "src\\com\\sarthakgiri\\studentmanagementsystem\\main",
+        "src\\com\\sarthakgiri\\studentmanagementsystem\\app_panels"
+    ],
+    "java.project.referencedLibraries": [
+        "c:\\Users\\giris\\Downloads\\Softwares\\json-simple-1.1.1.jar",
+        "c:\\Users\\giris\\Downloads\\Softwares\\mysql-connector-j-9.6.0\\mysql-connector-j-9.6.0\\mysql-connector-j-9.6.0.jar"
+    ]
+}
