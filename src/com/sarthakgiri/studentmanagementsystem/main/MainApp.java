@@ -18,12 +18,13 @@ public class MainApp extends JFrame implements PanelNames{
         navigationController.addPanelToMainPanel(LOGIN, new LoginPanel());
         navigationController.addPanelToMainPanel(USER_OPTIONS, new UserOptionsPanel());
         navigationController.addPanelToMainPanel(READ_STUDENT, new ReadStudentPanel());
+        navigationController.addPanelToMainPanel(CREATE_STUDENT, new CreateStudentPanel());
 
         // start on login page
         navigationController.navigateTo(LOGIN);
 
         add(mainPanel);
-        setSize(700, 300);
+        setSize(700, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
