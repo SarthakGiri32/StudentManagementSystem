@@ -6,4 +6,5 @@ public interface TableDisplayColumnNames {
     public static final String EMAIL_ID = "Email ID";
     public static final String PHONE_NUMBER = "Phone Number";
     public static final String MARKS = "Marks";
+    public static final String GRADE = "Grade";
 }

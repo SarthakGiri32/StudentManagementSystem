@@ -23,8 +23,9 @@ public class MainApp extends JFrame implements PanelNames{
         navigationController.navigateTo(LOGIN);
 
         add(mainPanel);
-        setSize(500, 300);
+        setSize(700, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         setVisible(true);
 
     }

@@ -76,6 +76,7 @@ public class LoginPanel extends BasePanel {
     public void onNavigatedTo() {
 
         setUserCredentials();
+        clearInputFields();
         
         correctUsername = navigationController.getData("username");
         correctPassword = navigationController.getData("password");
@@ -96,9 +97,15 @@ public class LoginPanel extends BasePanel {
             navigationController.navigateTo(USER_OPTIONS);
         } else {
             JOptionPane.showMessageDialog(this,
+                "Invalid Username or Password",
                 "MySQL login failed",
-                "Login Failed",
                 JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void clearInputFields() {
+        usernameField.setText("");
+        passwordField.setText("");
+        usernameField.requestFocus();
     }
 }

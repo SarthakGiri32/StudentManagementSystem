@@ -9,8 +9,6 @@ import javax.swing.JPanel;
 
 public class UserOptionsPanel extends BasePanel {
 
-    private JButton displayAllStudentButton;
-
     @Override
     protected JPanel build() {
         
@@ -23,10 +21,17 @@ public class UserOptionsPanel extends BasePanel {
 
         // Create Student Option
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 1;
-        displayAllStudentButton = new JButton("Read Student Records");
+        JButton displayAllStudentButton = new JButton("Read Student Records");
         displayAllStudentButton.setPreferredSize(new Dimension(200, 32));
         displayAllStudentButton.addActionListener(e -> navigationController.navigateTo(READ_STUDENT));
         userOptionsPanel.add(displayAllStudentButton, gbc);
+
+        // logout button
+        gbc.gridx = 0; gbc.gridy = 1; 
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setPreferredSize(new Dimension(50, 32));
+        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        userOptionsPanel.add(logoutButton, gbc);
         
         return userOptionsPanel;
 

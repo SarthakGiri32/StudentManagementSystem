@@ -7,5 +7,6 @@ CREATE TABLE IF NOT EXISTS student (
     department VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     phone VARCHAR(15) UNIQUE NOT NULL,
-    marks INT NOT NULL
+    marks INT NOT NULL,
+    grade CHAR(1) NOT NULL
 );
