@@ -86,7 +86,7 @@ public class DeleteStudentPanel extends BasePanel {
 
         if (rollNumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
-                "All fields required to update a student record!", 
+                "All fields required to delete a student record!", 
                 "Validation Error", 
                 JOptionPane.WARNING_MESSAGE);
             return;

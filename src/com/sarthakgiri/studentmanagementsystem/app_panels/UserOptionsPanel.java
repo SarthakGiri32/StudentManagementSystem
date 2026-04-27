@@ -47,8 +47,15 @@ public class UserOptionsPanel extends BasePanel {
         deleteStudentRecordButton.addActionListener(e -> navigationController.navigateTo(DELETE_STUDENT));
         userOptionsPanel.add(deleteStudentRecordButton, gbc);
 
+        // Search Student Option
+        gbc.gridy = 4;
+        JButton searchStudentRecordButton = new JButton("Search Student Record");
+        searchStudentRecordButton.setPreferredSize(new Dimension(200, 32));
+        searchStudentRecordButton.addActionListener(e -> navigationController.navigateTo(SEARCH_STUDENT));
+        userOptionsPanel.add(searchStudentRecordButton, gbc);
+
         // logout button
-        gbc.gridy = 4; 
+        gbc.gridy = 5; 
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(50, 32));
         logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));

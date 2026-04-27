@@ -53,7 +53,7 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         studentTable.getColumnModel().getColumn(4).setPreferredWidth(250); // Email ID
         studentTable.getColumnModel().getColumn(5).setPreferredWidth(150); // Phone Number
         studentTable.getColumnModel().getColumn(6).setPreferredWidth(50); // Marks
-        studentTable.getColumnModel().getColumn(7).setPreferredWidth(50); // Marks
+        studentTable.getColumnModel().getColumn(7).setPreferredWidth(50); // Grade
 
         JScrollPane studentTableScrollPane = new JScrollPane(studentTable);
 
