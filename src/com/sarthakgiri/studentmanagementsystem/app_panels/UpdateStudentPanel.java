@@ -277,21 +277,8 @@ public class UpdateStudentPanel extends BasePanel {
         {
 
             if (columnName.equals("marks")) {
-                int marks = Integer.parseInt(newColumnData); char grade;
-
-                if (marks >= 90 && marks <= 100) {
-                    grade = 'A';
-                } else if (marks >= 80 && marks <= 89) {
-                    grade = 'B';
-                } else if (marks >= 70 && marks <= 79) {
-                    grade = 'C';
-                } else if (marks >= 60 && marks <= 69) {
-                    grade = 'D';
-                } else if (marks >= 50 && marks <= 59) {
-                    grade = 'E';
-                } else {
-                    grade = 'F';
-                }
+                int marks = Integer.parseInt(newColumnData); 
+                char grade = generateGrade(marks);
 
                 preparedStatement2.setInt(1, marks);
                 preparedStatement2.setString(2, String.valueOf(grade));
@@ -328,7 +315,8 @@ public class UpdateStudentPanel extends BasePanel {
         }
     }
 
-    private void clearInputFields() {
+    @Override
+    protected void clearInputFields() {
         columnNameField.setText("");
         newColumnDataField.setText("");
         rollNumberField.setText("");

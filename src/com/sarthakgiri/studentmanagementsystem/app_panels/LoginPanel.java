@@ -111,7 +111,8 @@ public class LoginPanel extends BasePanel {
         }
     }
 
-    private void clearInputFields() {
+    @Override
+    protected void clearInputFields() {
         usernameField.setText("");
         passwordField.setText("");
         usernameField.requestFocus();
