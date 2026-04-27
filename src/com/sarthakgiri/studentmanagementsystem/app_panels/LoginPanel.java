@@ -85,8 +85,16 @@ public class LoginPanel extends BasePanel {
 
     private void loginToMySQL() {
         
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
+        
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "All fields required to validate login!", 
+                "Validation Error", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         if (correctUsername.equals(username) && correctPassword.equals(password)) {
             JOptionPane.showMessageDialog(this, 

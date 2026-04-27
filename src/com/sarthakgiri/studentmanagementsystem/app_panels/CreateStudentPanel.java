@@ -158,7 +158,7 @@ public class CreateStudentPanel extends BasePanel{
             marks.isEmpty())
         {
             JOptionPane.showMessageDialog(this, 
-                "All fields all required to create a new record!", 
+                "All fields required to create a new record!", 
                 "Validation Error", 
                 JOptionPane.WARNING_MESSAGE);
             return;
