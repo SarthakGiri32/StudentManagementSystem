@@ -1,4 +1,8 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -6,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +32,7 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         studentTableDisplayPanel.setBorder(BorderFactory.createTitledBorder("Student Table Display"));
 
         // column names initialization
-        String[] columnHeaders = {ID, NAME, ROLL_NUMBER, DEPARTMENT, EMAIL_ID, PHONE_NUMBER, MARKS};
+        String[] columnHeaders = {ID, NAME, ROLL_NUMBER, DEPARTMENT, EMAIL_ID, PHONE_NUMBER, MARKS, GRADE};
         studentTableModel = new DefaultTableModel(columnHeaders, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -48,9 +53,31 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         studentTable.getColumnModel().getColumn(4).setPreferredWidth(250); // Email ID
         studentTable.getColumnModel().getColumn(5).setPreferredWidth(150); // Phone Number
         studentTable.getColumnModel().getColumn(6).setPreferredWidth(50); // Marks
+        studentTable.getColumnModel().getColumn(7).setPreferredWidth(50); // Grade
 
         JScrollPane studentTableScrollPane = new JScrollPane(studentTable);
 
+        // button panel
+        JPanel returnButtonsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 10, 5, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        // 'Go back to user options' button
+        gbc.gridx = 0; gbc.gridy = 0;
+        JButton returnToUserOptionsButton = new JButton("Return to User Options");
+        returnToUserOptionsButton.setPreferredSize(new Dimension(200, 20));
+        returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
+        returnButtonsPanel.add(returnToUserOptionsButton, gbc);
+
+        gbc.gridx = 1;
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setPreferredSize(new Dimension(100, 20));
+        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        returnButtonsPanel.add(logoutButton, gbc);
+
+        studentTableDisplayPanel.add(returnButtonsPanel, BorderLayout.SOUTH);
         studentTableDisplayPanel.add(studentTableScrollPane, BorderLayout.CENTER);
 
         return studentTableDisplayPanel;
@@ -88,7 +115,8 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
                                 resultSet.getString("department"),
                                 resultSet.getString("email"),
                                 resultSet.getString("phone"),
-                                resultSet.getInt("marks")
+                                resultSet.getInt("marks"),
+                                resultSet.getString("grade")
                             });
                         }
                     } catch (SQLException e) {
