@@ -60,7 +60,7 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
     private JPanel createSearchInputPanel() {
         
         JPanel searchInputFieldPanel = new JPanel(new GridBagLayout());
-        searchInputFieldPanel.setBorder(BorderFactory.createTitledBorder("Search By Roll Number Input"));
+        searchInputFieldPanel.setBorder(BorderFactory.createTitledBorder("Search By Department Input"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;

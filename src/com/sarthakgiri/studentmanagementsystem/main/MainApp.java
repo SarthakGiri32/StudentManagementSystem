@@ -25,6 +25,7 @@ public class MainApp extends JFrame implements PanelNames{
         navigationController.addPanelToMainPanel(NAME_SEARCH, new StudentNameSearchPanel());
         navigationController.addPanelToMainPanel(ROLL_NUMBER_SEARCH, new StudentRollNumberSearchPanel());
         navigationController.addPanelToMainPanel(DEPARTMENT_SEARCH, new StudentDepartmentSearchPanel());
+        navigationController.addPanelToMainPanel(MARKS_RANGE_SEARCH, new StudentMarksSearchPanel());
 
         // start on login page
         navigationController.navigateTo(LOGIN);
