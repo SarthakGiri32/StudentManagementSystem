@@ -27,6 +27,13 @@ public abstract class BasePanel extends JPanel implements PanelNames {
                                                                 "1. The name should only contain simple alphabetic letters and spaces\n";
     protected static final String validMarksGuidelines = "Valid marks guidelines:\n" +
                                                        "1. The marks should be an integer between 0 and 100 (inclusive)\n";
+    protected static final String validColumnNamesGuidelines = "Valid column names:\n" +
+                                                                "1. name\n" +
+                                                                "2. roll_no\n" +
+                                                                "3. department\n" +
+                                                                "4. email\n" +
+                                                                "5. phone\n" +
+                                                                "6. marks\n"; 
 
 
     public BasePanel() {
