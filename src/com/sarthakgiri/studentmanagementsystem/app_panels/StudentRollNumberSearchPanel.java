@@ -50,7 +50,7 @@ public class StudentRollNumberSearchPanel extends BasePanel implements TableDisp
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0; gbc.gridx = 0;
+        gbc.gridx = 0; gbc.gridy = 0;
         searchInputFieldPanel.add(new JLabel("Existing roll number:"), gbc);
         gbc.gridx = 1;
         rollNumberSearchInputField = new JTextField(20);
@@ -126,6 +126,7 @@ public class StudentRollNumberSearchPanel extends BasePanel implements TableDisp
         databaseUrl = navigationController.getData("databaseUrl");
 
         clearInputFields();
+        searchResultTableModel.setRowCount(0);
 
     }
 
@@ -140,6 +141,7 @@ public class StudentRollNumberSearchPanel extends BasePanel implements TableDisp
         String rollNumber = rollNumberSearchInputField.getText().trim();
 
         if (rollNumber.isEmpty()) {
+            searchResultTableModel.setRowCount(0);
             JOptionPane.showMessageDialog(this, 
                 "Roll number data is required to search through the database!", 
                 "Validation Error", 
@@ -147,10 +149,11 @@ public class StudentRollNumberSearchPanel extends BasePanel implements TableDisp
             return;
         }       
         else if (!rollNumber.matches("^\\d{3}$")) {
+            searchResultTableModel.setRowCount(0);
             JOptionPane.showMessageDialog(this,
                 validRollNumberGuidelines + "Please enter a valid roll number",
                 "Validation Error",
-                JOptionPane.WARNING_MESSAGE); 
+                JOptionPane.WARNING_MESSAGE);
             return;             
         }
 
