@@ -20,11 +20,6 @@ public class DeleteStudentPanel extends BasePanel {
     private String databaseUrl, username, password;
     private JTextField rollNumberField;
 
-    private static final String validRollNumberGuidelines = "Valid roll number conditions:\n" +
-                                                            "1. The roll number should contain exactly 3 digits\n" +
-                                                            "2. For a 1 digit roll number, append 2 zeros to the start\n" +
-                                                            "3. For a 2 digit roll number, append 1 zero to the start\n";
-
     @Override
     protected JPanel build() {
          
