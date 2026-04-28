@@ -26,12 +26,18 @@ public class SearchStudentPanel extends BasePanel {
         searchOptionsPanel.add(studentNameSearchButton, gbc);
 
         gbc.gridy = 1;
+        JButton studentRollNumberSearchButton = new JButton("Search By Roll Number");
+        studentRollNumberSearchButton.setPreferredSize(new Dimension(200, 32));
+        studentRollNumberSearchButton.addActionListener(e -> navigationController.navigateTo(ROLL_NUMBER_SEARCH));
+        searchOptionsPanel.add(studentRollNumberSearchButton, gbc);
+
+        gbc.gridy = 2;
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 32));
         returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
         searchOptionsPanel.add(returnToUserOptionsButton, gbc);
 
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
         logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));

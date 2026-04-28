@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,44 +23,44 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-public class StudentNameSearchPanel extends BasePanel implements TableDisplayColumnNames {
+public class StudentRollNumberSearchPanel extends BasePanel implements TableDisplayColumnNames {
 
     private String databaseUrl, username, password;
     private DefaultTableModel searchResultTableModel;
-    private JTextField nameSearchInputField;
+    private JTextField rollNumberSearchInputField;
 
     @Override
     protected JPanel build() {
         
-        JPanel studentNameSearchPanel = new JPanel(new BorderLayout(10, 10));
+        JPanel studentRollNumberSearchPanel = new JPanel(new BorderLayout(10, 10));
         
-        studentNameSearchPanel.add(createSearchInputPanel(), BorderLayout.NORTH);
-        studentNameSearchPanel.add(createSearchResultDisplayPanel(), BorderLayout.CENTER);
+        studentRollNumberSearchPanel.add(createSearchInputPanel(), BorderLayout.NORTH);
+        studentRollNumberSearchPanel.add(createSearchResultDisplayPanel(), BorderLayout.CENTER);
 
-        return studentNameSearchPanel;
+        return studentRollNumberSearchPanel;
 
     }
 
     private JPanel createSearchInputPanel() {
         
         JPanel searchInputFieldPanel = new JPanel(new GridBagLayout());
-        searchInputFieldPanel.setBorder(BorderFactory.createTitledBorder("Search By Name Input"));
+        searchInputFieldPanel.setBorder(BorderFactory.createTitledBorder("Search By Roll Number Input"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0; gbc.gridy = 0;
-        searchInputFieldPanel.add(new JLabel("Existing name:"), gbc);
+        gbc.gridx = 0; gbc.gridx = 0;
+        searchInputFieldPanel.add(new JLabel("Existing roll number:"), gbc);
         gbc.gridx = 1;
-        nameSearchInputField = new JTextField(20);
-        searchInputFieldPanel.add(nameSearchInputField, gbc);
+        rollNumberSearchInputField = new JTextField(20);
+        searchInputFieldPanel.add(rollNumberSearchInputField, gbc);
 
         JPanel searchButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
 
         JButton searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(200, 32));
-        searchButton.addActionListener(e -> searchStudentByName());
+        searchButton.addActionListener(e -> searchStudentByRollNumber());
         searchButtonPanel.add(searchButton);
 
         JButton returnToSearchOptionsButton = new JButton("Return to Search Options");
@@ -79,108 +78,7 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
         searchInputFieldPanel.add(logoutButton, gbc);
 
         return searchInputFieldPanel;
-
-    }
-
-    private void searchStudentByName() {
         
-        String name = nameSearchInputField.getText().trim();
-
-        String regex = "(\\p{Upper}\\p{Lower}+\\s?){2,3}";
-        Pattern pattern = Pattern.compile(regex);
-
-        if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Name data is required to search through the database!", 
-                "Validation Error", 
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (!pattern.matcher(name).matches()) {
-            JOptionPane.showMessageDialog(this, 
-                validNameGuidelines + "Please enter a valid name", 
-                "Validation Error", 
-                JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        displaySearchResultTable(name);
-        
-    }
-
-    private void displaySearchResultTable(String name) {
-        
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
-            @Override
-            protected Void doInBackground() {
-
-                String searchByNameSQL = "SELECT * FROM student WHERE name = ?";
-
-                try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(searchByNameSQL))
-                {
-
-                    preparedStatement.setString(1, name);
-
-                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                        searchResultTableModel.setRowCount(0);
-                        if (resultSet.next()) {
-                            searchResultTableModel.addRow(new Object[]{
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getString("roll_no"),
-                                resultSet.getString("department"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone"),
-                                resultSet.getInt("marks"),
-                                resultSet.getString("grade")
-                            });
-
-                            SwingUtilities.invokeLater(() ->
-
-                                JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
-                                    "Search by name was successful",
-                                    "Search Successful",
-                                    JOptionPane.INFORMATION_MESSAGE)
-
-                            );
-
-                            SwingUtilities.invokeLater(() -> 
-                                clearInputFields()
-                            );
-
-                        } else {
-                            SwingUtilities.invokeLater(() ->
-
-                                JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
-                                    "Search by name failed",
-                                    "Search Failed",
-                                    JOptionPane.WARNING_MESSAGE)
-
-                            );
-                        }
-       
-                    }
-
-                } catch (SQLException e) {
-                            
-                    SwingUtilities.invokeLater(() ->
-
-                        JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
-
-                    );
-                }
-
-                return null;
-
-            }
-        };
-
-        worker.execute();
-
     }
 
     private JPanel createSearchResultDisplayPanel() {
@@ -217,6 +115,7 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
         searchResultTablePanel.add(searchResultTableScrollPane, BorderLayout.CENTER);
 
         return searchResultTablePanel;
+
     }
 
     @Override
@@ -232,8 +131,107 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
 
     @Override
     protected void clearInputFields() {
-        nameSearchInputField.setText("");
-        nameSearchInputField.requestFocus();
+        rollNumberSearchInputField.setText("");
+        rollNumberSearchInputField.requestFocus();
+    }
+
+    private void searchStudentByRollNumber() {
+        
+        String rollNumber = rollNumberSearchInputField.getText().trim();
+
+        if (rollNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Roll number data is required to search through the database!", 
+                "Validation Error", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }       
+        else if (!rollNumber.matches("^\\d{3}$")) {
+            JOptionPane.showMessageDialog(this,
+                validRollNumberGuidelines + "Please enter a valid roll number",
+                "Validation Error",
+                JOptionPane.WARNING_MESSAGE); 
+            return;             
+        }
+
+        displaySearchResultTable(rollNumber);
+
+    }
+
+    private void displaySearchResultTable(String rollNumber) {
+        
+        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+            @Override
+            protected Void doInBackground() {
+
+                String searchByRollNumberSQL = "SELECT * FROM student WHERE roll_no = ?";
+
+                try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
+                    PreparedStatement preparedStatement = connection.prepareStatement(searchByRollNumberSQL))
+                {
+
+                    preparedStatement.setString(1, rollNumber);
+
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+                        searchResultTableModel.setRowCount(0);
+                        if (resultSet.next()) {
+                            searchResultTableModel.addRow(new Object[]{
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("roll_no"),
+                                resultSet.getString("department"),
+                                resultSet.getString("email"),
+                                resultSet.getString("phone"),
+                                resultSet.getInt("marks"),
+                                resultSet.getString("grade")
+                            });
+
+                            SwingUtilities.invokeLater(() ->
+
+                                JOptionPane.showMessageDialog(StudentRollNumberSearchPanel.this,
+                                    "Search by roll number was successful",
+                                    "Search Successful",
+                                    JOptionPane.INFORMATION_MESSAGE)
+
+                            );
+
+                            SwingUtilities.invokeLater(() -> 
+                                clearInputFields()
+                            );
+
+                        } else {
+                            SwingUtilities.invokeLater(() ->
+
+                                JOptionPane.showMessageDialog(StudentRollNumberSearchPanel.this,
+                                    "Search by roll number failed",
+                                    "Search Failed",
+                                    JOptionPane.WARNING_MESSAGE)
+
+                            );
+                        }
+       
+                    }
+
+                } catch (SQLException e) {
+                            
+                    SwingUtilities.invokeLater(() ->
+
+                        JOptionPane.showMessageDialog(StudentRollNumberSearchPanel.this,
+                            "Error:\n" + e.toString(),
+                            "MySQL Error",
+                            JOptionPane.WARNING_MESSAGE)
+
+                    );
+                }
+
+                return null;
+
+            }
+        };
+
+        worker.execute();
+
     }
 
 }
