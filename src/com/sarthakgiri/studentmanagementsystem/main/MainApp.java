@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * This is the main class that initializes all app panels and starts the app from the login page
+ */
 public class MainApp extends JFrame implements PanelNames{
 
     public MainApp() {
@@ -11,6 +14,7 @@ public class MainApp extends JFrame implements PanelNames{
         JPanel mainPanel = new JPanel(cardLayout);
 
         // Initializing the navigation controller singleton object
+        // used as the class to help navigate between the various panels (screens) of the app
         NavigationController navigationController = NavigationController.getInstance();
         navigationController.init(cardLayout, mainPanel);
 
