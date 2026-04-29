@@ -7,4 +7,7 @@ public interface TableDisplayColumnNames {
     public static final String PHONE_NUMBER = "Phone Number";
     public static final String MARKS = "Marks";
     public static final String GRADE = "Grade";
+    public static final String TOTAL_STUDENT_COUNT = "Total Number of Students";
+    public static final String STUDENT_HIGHEST_MARKS = "Highest Marks";
+    public static final String STUDENT_LOWEST_MARKS = "Lowest Marks";
 }
