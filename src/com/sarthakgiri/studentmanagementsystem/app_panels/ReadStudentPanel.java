@@ -1,16 +1,26 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNames {
 
     private DefaultTableModel studentTableModel;
+    private JButton downloadButton;
     private String username, password, databaseUrl;
 
     @Override
@@ -58,29 +69,192 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         JScrollPane studentTableScrollPane = new JScrollPane(studentTable);
 
         // button panel
-        JPanel returnButtonsPanel = new JPanel(new GridBagLayout());
+        JPanel buttonsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 10, 5, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
 
+        // Download student list as csv button
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
+        downloadButton = new JButton("Download Student Table as CSV");
+        downloadButton.setFont(new Font("Arial", Font.BOLD, 14));
+        downloadButton.setBackground(new Color(34, 139, 34));
+        downloadButton.setForeground(Color.WHITE);
+        downloadButton.setFocusPainted(false);
+        downloadButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        downloadButton.setPreferredSize(new Dimension(320, 50));
+        downloadButton.addActionListener(e -> downloadStudentListAsCSV());
+        buttonsPanel.add(downloadButton, gbc);
+
         // 'Go back to user options' button
-        gbc.gridx = 0; gbc.gridy = 0;
+        JPanel returnButtonsFlowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 20));
         returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
-        returnButtonsPanel.add(returnToUserOptionsButton, gbc);
+        returnButtonsFlowPanel.add(returnToUserOptionsButton);   
 
-        gbc.gridx = 1;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(100, 20));
         logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
-        returnButtonsPanel.add(logoutButton, gbc);
+        returnButtonsFlowPanel.add(logoutButton);
 
-        studentTableDisplayPanel.add(returnButtonsPanel, BorderLayout.SOUTH);
+        gbc.gridy = 1;
+        buttonsPanel.add(returnButtonsFlowPanel, gbc);
+
+        studentTableDisplayPanel.add(buttonsPanel, BorderLayout.SOUTH);
         studentTableDisplayPanel.add(studentTableScrollPane, BorderLayout.CENTER);
 
         return studentTableDisplayPanel;
+    }
+
+    private void downloadStudentListAsCSV() {
+        
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Save Student List as CSV File");
+        fileChooser.setSelectedFile(new File("student_list.csv"));
+
+        int userFileSaveDialogBoxResult = fileChooser.showSaveDialog(this);
+
+        if (userFileSaveDialogBoxResult == JFileChooser.APPROVE_OPTION) {
+
+            File fileToSave = fileChooser.getSelectedFile();
+
+            // Ensure .csv extension
+            if (!fileToSave.getName().endsWith(".csv")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".csv");
+            }
+
+            exportStudentListToCSVInBackground(fileToSave);
+
+        }
+
+    }
+
+    private void exportStudentListToCSVInBackground(File fileToSave) {
+        
+        SwingWorker<Integer, Void> worker = new SwingWorker<>() {
+
+            @Override
+            protected Integer doInBackground() {
+                return exportStudentListToCSV(fileToSave);
+            }
+
+            @Override
+            protected void done() {
+                
+                try {
+                    int rowCount = get();
+
+                    if (rowCount >= 0) {
+
+                        JOptionPane.showMessageDialog(ReadStudentPanel.this,
+                            "CSV file exported successfully!\n" +
+                            "File: " + fileToSave.getAbsolutePath() + "\n" +
+                            "Total Records: " + rowCount,
+                            "Export Successful",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                    }
+
+                } catch (Exception ex) {
+
+                    JOptionPane.showMessageDialog(ReadStudentPanel.this,
+                        "Export failed: " + ex.toString(),
+                        "Export Error",
+                        JOptionPane.WARNING_MESSAGE);
+
+                } finally {
+
+                    downloadButton.setEnabled(true);
+                    downloadButton.setText("Download Student Table as CSV");
+
+                }
+
+            }
+            
+        };
+
+        downloadButton.setEnabled(false);
+        downloadButton.setText("Exporting...");
+
+        worker.execute();
+
+    }
+
+    private int exportStudentListToCSV(File fileToSave) {
+        
+        String exportStudentListToCSVSQL = "SELECT * FROM student";
+
+        try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
+             PreparedStatement preparedStatement = connection.prepareStatement(exportStudentListToCSVSQL);
+             ResultSet resultSet = preparedStatement.executeQuery();
+             PrintWriter writer = new PrintWriter(new FileWriter(fileToSave)))
+        {
+            writer.println(ID + "," + 
+                        NAME + "," + 
+                        ROLL_NUMBER + "," + 
+                        DEPARTMENT + "," + 
+                        EMAIL_ID + "," + 
+                        PHONE_NUMBER + "," + 
+                        MARKS + "," + 
+                        GRADE);
+
+            int rowCount = 0;
+            while (resultSet.next()) {
+
+                rowCount++;
+                writer.printf("%d,%s,%s,%s,%s,%s,%d,%s%n",
+                    resultSet.getInt("id"),
+                    escapeSpecialCharactersInCSV(resultSet.getString("name")),
+                    escapeSpecialCharactersInCSV(resultSet.getString("roll_no")),
+                    escapeSpecialCharactersInCSV(resultSet.getString("department")),
+                    escapeSpecialCharactersInCSV(resultSet.getString("email")),
+                    escapeSpecialCharactersInCSV(resultSet.getString("phone")),
+                    resultSet.getInt("marks"),
+                    escapeSpecialCharactersInCSV(resultSet.getString("grade"))
+                );
+
+            }
+
+            return rowCount;
+
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(this,
+                "Database error: " + e.toString(),
+                "MySQL Error",
+                JOptionPane.WARNING_MESSAGE);
+            return -1;
+
+        } catch (IOException e) {
+            
+            JOptionPane.showMessageDialog(this,
+                "File error: " + e.toString(),
+                "File Error",
+                JOptionPane.WARNING_MESSAGE);
+            return -1;
+
+        } 
+
+    }
+
+    private String escapeSpecialCharactersInCSV(String value) {
+        if (value == null) return "";
+
+        // Check for any character that requires quoting
+        if (value.contains(".")  ||
+            value.contains("_")  ||
+            value.contains("%")  ||
+            value.contains("+")  ||
+            value.contains("-")) {
+
+            return "\"" + value + "\"";           // wrap in double quotes
+
+        }
+
+        return value;
     }
 
     @Override

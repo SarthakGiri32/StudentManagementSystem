@@ -11,4 +11,6 @@ public interface PanelNames {
     public static final String DEPARTMENT_SEARCH = "DEPARTMENT_SEARCH";
     public static final String MARKS_RANGE_SEARCH = "MARKS_RANGE_SEARCH";
     public static final String STUDENT_STATS = "STUDENT_STATS";
+    public static final String STUDENT_COUNT_AND_MARKS = "STUDENT_COUNT_AND_MARKS";
+    public static final String STUDENT_DEPARTMENT_COUNT = "STUDENT_DEPARTMENT_COUNT";
 }
