@@ -28,6 +28,7 @@ public class MainApp extends JFrame implements PanelNames{
         navigationController.addPanelToMainPanel(MARKS_RANGE_SEARCH, new StudentMarksSearchPanel());
         navigationController.addPanelToMainPanel(STUDENT_STATS, new StudentStatisticOptionsPanel());
         navigationController.addPanelToMainPanel(STUDENT_COUNT_AND_MARKS, new StudentCountAndHighestAndLowestMarksPanel());
+        navigationController.addPanelToMainPanel(STUDENT_DEPARTMENT_COUNT, new StudentCountByDepartmentPanel());
 
         // start on login page
         navigationController.navigateTo(LOGIN);

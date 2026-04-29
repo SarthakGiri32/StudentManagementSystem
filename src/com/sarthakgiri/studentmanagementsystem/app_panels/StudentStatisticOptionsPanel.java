@@ -25,6 +25,12 @@ public class StudentStatisticOptionsPanel extends BasePanel {
         totalCountAndMarksRangeButton.addActionListener(e -> navigationController.navigateTo(STUDENT_COUNT_AND_MARKS));
         statisticOptionsPanel.add(totalCountAndMarksRangeButton, gbc);
 
+        gbc.gridy = 1;
+        JButton studentCountByDepartmentButton = new JButton("Student Count By Department");
+        studentCountByDepartmentButton.setPreferredSize(new Dimension(400, 32));
+        studentCountByDepartmentButton.addActionListener(e -> navigationController.navigateTo(STUDENT_DEPARTMENT_COUNT));
+        statisticOptionsPanel.add(studentCountByDepartmentButton, gbc);
+
         gbc.gridy = 2;
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 32));

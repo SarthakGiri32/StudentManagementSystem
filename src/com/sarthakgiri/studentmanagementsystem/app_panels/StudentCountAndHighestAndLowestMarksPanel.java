@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +21,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel implements TableDisplayColumnNames {
+public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel implements StatisticsDisplayColumnNames {
 
     private String databaseUrl, username, password;
     private DefaultTableModel studentCountTableModel, highestAndLowestMarksTableModel;
@@ -37,8 +40,24 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
         studentCountAndMarksPanel.add(createStudentCountPanel(), gbc);
 
         gbc.gridx = 0; gbc.gridy = 1;
-        gbc.weightx = 1.0; gbc.weighty = 0.7;
+        gbc.weightx = 1.0; gbc.weighty = 0.5;
         studentCountAndMarksPanel.add(createHighestAndLowestMarksPanel(), gbc);
+
+        JPanel returnToStudentStatisticOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+
+        JButton returnToStudentStatisticOptionsButton = new JButton("Return to Student Statistic Options");
+        returnToStudentStatisticOptionsButton.setPreferredSize(new Dimension(300, 32));
+        returnToStudentStatisticOptionsButton.addActionListener(e -> navigationController.navigateTo(STUDENT_STATS));
+        returnToStudentStatisticOptionsPanel.add(returnToStudentStatisticOptionsButton);
+
+        JButton logoutButton = new JButton("Logout");
+        logoutButton.setPreferredSize(new Dimension(300, 32));
+        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        returnToStudentStatisticOptionsPanel.add(logoutButton);
+
+        gbc.gridx = 0; gbc.gridy = 2;
+        gbc.weightx = 1.0; gbc.weighty = 0.2;
+        studentCountAndMarksPanel.add(returnToStudentStatisticOptionsPanel, gbc);
 
         return studentCountAndMarksPanel;
 
@@ -105,7 +124,7 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
         highestAndLowestMarksTable.getTableHeader().setReorderingAllowed(false);
 
         highestAndLowestMarksTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-        highestAndLowestMarksTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+        highestAndLowestMarksTable.getColumnModel().getColumn(1).setPreferredWidth(100);
 
         JScrollPane highestAndLowestMarksTableScrollPane = new JScrollPane(highestAndLowestMarksTable);
 
