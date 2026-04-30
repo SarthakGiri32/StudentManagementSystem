@@ -253,7 +253,7 @@ D) To add the downloaded JAR to the project settings for the code, follow the st
 
 #### Step 2: Navigating through the App and using all app features
 
-A) Creating a new student record
+A) Creating a new student record:
 
 - In the `Student Management System Options` screen, click on the `Create Student Record` button:
     ![Page_5.png](README_Application_Screenshots/App_Usage/Page_5.png)
@@ -265,7 +265,7 @@ A) Creating a new student record
 - Click on the `Return to User Options` button to return to the `Student Management System Options` screen:
     ![Page_10.png](README_Application_Screenshots/App_Usage/Page_10.png)
 
-B) Read All Student Records
+B) Read All Student Records:
 
 - In the `Student Management System Options` screen, click on the `Read Student Records` button:
     ![Page_11.png](README_Application_Screenshots/App_Usage/Page_11.png)
@@ -281,3 +281,14 @@ B) Read All Student Records
     ![Page_16.png](README_Application_Screenshots/App_Usage/Page_16.png)
 - In the `Student Table Display` screen, click on the `Return to User Options` button to return to the `Student Management System Options` screen:
     ![Page_17.png](README_Application_Screenshots/App_Usage/Page_17.png)
+
+C) Update a Student Record:
+
+- In the `Student Management System Options` screen, click on the `Update Student Record` button:
+    ![Page_18.png](README_Application_Screenshots/App_Usage/Page_18.png)
+- In the `Update Existing Student Record` screen, enter the necessary user input data, and click on the `Update Student Record` button:
+    ![Page_19.png](README_Application_Screenshots/App_Usage/Page_19.png)
+- If the user input data is valid, and the input roll number value exists in the `student` table, then `Data Update Successful` information message dialog box is displayed, which can be dismissed by clicking on the `OK` button:
+    ![Page_20.png](README_Application_Screenshots/App_Usage/Page_20.png)
+- Click on the `Return to User Options` button to return to the `Student Management System Options` screen:
+    ![Page_21.png](README_Application_Screenshots/App_Usage/Page_21.png)
