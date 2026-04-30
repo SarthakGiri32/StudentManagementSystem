@@ -1,6 +1,14 @@
 # Student Management System App
 This repo is the Final Internship project for Clinchsoft Technologies
 
+To see the screenshot of the working app go to this section: [II) Launch, Navigation and Using All App Features](#II-Launch-Navigation-and-Using-All-App-Features)
+
+The SQL file for database setup can be found in this location: [resources/Creating_Student_Table.sql](resources/Creating_Student_Table.sql)
+
+Project Completion Form Link: [https://forms.gle/bU268M2b9NRUaQnF9](https://forms.gle/bU268M2b9NRUaQnF9)
+    ![img.png](README_Application_Screenshots/Project_Completion_Form/img.png)
+
+
 ## Table of Contents
 1. [Project Purpose](#Project-Purpose)
 2. [Application usage instructions](#Application-usage-instructions)
