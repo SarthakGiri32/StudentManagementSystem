@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * The class contains all the code for the MySQL Login screen of the app (and is the first screen seen after opening the app)
+ */
 public class LoginPanel extends BasePanel {
 
     private JTextField usernameField, passwordField;
@@ -46,7 +49,7 @@ public class LoginPanel extends BasePanel {
         JButton loginButton = new JButton("Login");
         loginButton.setPreferredSize(new Dimension(50, 32));
 
-        loginButton.addActionListener(e -> loginToMySQL());
+        loginButton.addActionListener(_ -> loginToMySQL());
 
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 1;
         userLoginFields.add(loginButton, gbc);
@@ -55,6 +58,10 @@ public class LoginPanel extends BasePanel {
         
     }
 
+    /**
+     * stores the mysql user credentials that can be used to validate user login (in this screen)
+     * and perform database operations in the various app screens
+     */
     private void setUserCredentials() {
 
         Properties properties = new Properties();
@@ -68,7 +75,10 @@ public class LoginPanel extends BasePanel {
             navigationController.putData("databaseUrl", properties.getProperty("databaseUrl"));
             
         } catch (IOException e) {
-            e.toString();
+            JOptionPane.showMessageDialog(this,
+                    "MySQL user credential reading failed:\n" + e,
+                    "MySQL User Credential Error",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -83,6 +93,9 @@ public class LoginPanel extends BasePanel {
 
     }
 
+    /**
+     * Validates user login to MySQL
+     */
     private void loginToMySQL() {
         
         String username = usernameField.getText().trim();
@@ -99,14 +112,13 @@ public class LoginPanel extends BasePanel {
         if (correctUsername.equals(username) && correctPassword.equals(password)) {
             JOptionPane.showMessageDialog(this, 
                 "Successfully logged into MySQL", 
-                "Login Success", 
+                "MySQL Login Success",
                 JOptionPane.INFORMATION_MESSAGE);
-
             navigationController.navigateTo(USER_OPTIONS);
         } else {
             JOptionPane.showMessageDialog(this,
                 "Invalid Username or Password",
-                "MySQL login failed",
+                "MySQL Login Failed",
                 JOptionPane.WARNING_MESSAGE);
         }
     }

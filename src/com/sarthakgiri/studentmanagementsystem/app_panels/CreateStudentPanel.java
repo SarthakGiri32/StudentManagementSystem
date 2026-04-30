@@ -73,28 +73,28 @@ public class CreateStudentPanel extends BasePanel{
         marksField = new JTextField(20);
         createStudentRecordPanel.add(marksField, gbc);
 
-        // create student record button
         JPanel uiButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         JPanel uiButtonPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        
+
+        // create student record button
         JButton createStudentRecordButton = new JButton("Create Student Record");
         createStudentRecordButton.setPreferredSize(new Dimension(200, 32));
-        createStudentRecordButton.addActionListener(e -> createNewStudentRecord());
+        createStudentRecordButton.addActionListener(_ -> createNewStudentRecord());
 
         // clear fields button;
         JButton clearInputFieldsButton = new JButton("Clear Input Fields");
         clearInputFieldsButton.setPreferredSize(new Dimension(200, 32));
-        clearInputFieldsButton.addActionListener(e -> clearInputFields());
+        clearInputFieldsButton.addActionListener(_ -> clearInputFields());
 
         // return to user options button
         JButton returnToUserOptionsButton = new JButton("Return To User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
+        returnToUserOptionsButton.addActionListener(_ -> navigationController.navigateTo(USER_OPTIONS));
 
         // logout button
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
 
         uiButtonPanel.add(createStudentRecordButton);
         uiButtonPanel.add(clearInputFieldsButton);
@@ -122,6 +122,9 @@ public class CreateStudentPanel extends BasePanel{
 
     }
 
+    /**
+     * Creates a new student record
+     */
     private void createNewStudentRecord() {
         
         String name = nameField.getText().trim();
@@ -198,7 +201,7 @@ public class CreateStudentPanel extends BasePanel{
         int marksInt = Integer.parseInt(marks);
         if (!(marksInt >= 0 && marksInt <= 100)) {
             JOptionPane.showMessageDialog(this,
-                validMarksGuidelines + "Please enter valid marks",
+                "Please enter marks between 0 and 100",
                 "Validation Error",
                 JOptionPane.WARNING_MESSAGE);
             return;
@@ -214,7 +217,7 @@ public class CreateStudentPanel extends BasePanel{
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error: MySQL server connection failed:\n" + e.toString(),
+                "Error: MySQL server connection failed:\n" + e,
                 "Server connection failed",
                 JOptionPane.WARNING_MESSAGE
             );
@@ -233,6 +236,17 @@ public class CreateStudentPanel extends BasePanel{
         nameField.requestFocus();
     }
 
+    /**
+     * Inserts a new student record in the student database table
+     * @param connection used to connect to the database and process SQL queries
+     * @param name the value stored in the 'name' column
+     * @param rollNumber the value stored in the 'roll_no' column
+     * @param departmentName the value stored in the 'department' column
+     * @param emailID the value stored in the 'email' column
+     * @param phoneNumber the value stored in the 'phone' column
+     * @param marks the value stored in the 'marks' column
+     * @param grade the value stored in the 'grade' column
+     */
     private void insertNewStudentRecord(Connection connection, String name, String rollNumber, String departmentName, String emailID, String phoneNumber, int marks, char grade) {
 
         String insertStudentDetailSQL = "INSERT INTO student (name, roll_no, department, email, phone, marks, grade) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -250,12 +264,12 @@ public class CreateStudentPanel extends BasePanel{
 
             JOptionPane.showMessageDialog(this, 
                 "Student details created successfully", 
-                "New student record created", 
+                "New Student Record Creation Successful",
                 JOptionPane.INFORMATION_MESSAGE);
 
         } catch (SQLException e) {
 
-            String errorMessage = "Error: Data insertion failed:\n" + e.toString() + "\n";
+            String errorMessage = "Error: Data insertion failed:\n" + e + "\n";
 
             if (e.getMessage().toLowerCase().contains("duplicate")) {
                 errorMessage += "The data you tried to enter already exists. Please try again.\n";
@@ -265,7 +279,7 @@ public class CreateStudentPanel extends BasePanel{
 
             JOptionPane.showMessageDialog(this,
                 errorMessage,
-                "New student record creation failed",
+                "New Student Record Creation Failed",
                 JOptionPane.WARNING_MESSAGE);
         }
     }

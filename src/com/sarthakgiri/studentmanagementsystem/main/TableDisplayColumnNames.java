@@ -1,3 +1,6 @@
+/**
+ * Contains all column header names used in displaying all columns in the student database table
+ */
 public interface TableDisplayColumnNames {
     public static final String ID = "ID";
     public static final String NAME = "Name";

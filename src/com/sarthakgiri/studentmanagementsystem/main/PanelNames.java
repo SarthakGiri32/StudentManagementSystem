@@ -1,3 +1,6 @@
+/**
+ * Contains the names of all the screens used in the app, and will be used for initialization and navigation
+ */
 public interface PanelNames {
     public static final String LOGIN = "LOGIN";
     public static final String USER_OPTIONS = "USER_OPTIONS";

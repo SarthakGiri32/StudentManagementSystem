@@ -1,3 +1,6 @@
+/**
+ * Contains all column header names used in displaying the 3 statistic tables
+ */
 public interface StatisticsDisplayColumnNames {
     public static final String TOTAL_STUDENT_COUNT = "Total Number of Students";
     public static final String STUDENT_HIGHEST_MARKS = "Highest Marks";

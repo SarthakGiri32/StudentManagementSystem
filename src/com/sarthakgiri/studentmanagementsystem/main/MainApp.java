@@ -14,7 +14,6 @@ public class MainApp extends JFrame implements PanelNames{
         JPanel mainPanel = new JPanel(cardLayout);
 
         // Initializing the navigation controller singleton object
-        // used as the class to help navigate between the various panels (screens) of the app
         NavigationController navigationController = NavigationController.getInstance();
         navigationController.init(cardLayout, mainPanel);
 

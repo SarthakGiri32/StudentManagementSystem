@@ -47,7 +47,7 @@ public class NavigationController implements PanelNames{
     }
 
     /**
-     * Setrieve user credential data in any panel
+     * Retrieves user credential data in any panel
      * @param key a particular user credential
      * @return the value of the 'key' user credential
      */
@@ -56,7 +56,7 @@ public class NavigationController implements PanelNames{
     }
 
     /**
-     * This method is called this once during app startup
+     * This method is called once during app startup
      * @param cardLayout a type of swing ui layout manager used for apps with multiple screens
      * @param mainPanel the main/parent JPanel object containing all panels (screens) of the app
      */
@@ -76,7 +76,7 @@ public class NavigationController implements PanelNames{
     }
 
     /**
-     * Navigates to a panel by its name
+     * Navigates to a panel (screen) by its name
      * @param panelName name of the panel
      */
     public void navigateTo(String panelName) {
