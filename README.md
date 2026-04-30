@@ -1,6 +1,11 @@
 # Student Management System App
 This repo is the Final Internship project for Clinchsoft Technologies
 
+## Table of Contents
+1. [Project Purpose](#Project-Purpose)
+2. [Application usage instructions](#Application-usage-instructions)
+3. [Future Improvements](#Future-Improvements)
+
 ## Project Purpose
 1. To demonstrate my understanding of connecting and executing SQL queries on a  
 MySQL database through the Java Programming Language.
@@ -149,7 +154,7 @@ We will be using MySQL Workbench to interact with the `student` database table
     ![Home_Page_4.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_4.png)
 - Enter the root password you configured during MySQL installation in the `Password` field in the `Store Password for Connection` dialog box, and click on `OK` to store the password for future use:
     ![Home_Page_5.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_5.png)
-- Click on the `Test Connection` option to test the connection to the local MySQL Database. You should be able to see a `MySQL Workbench` dialog box stating that a successful connection was made. Click on `OK` to dismiss the dialog box:
+- Click on the `Test Connection` option to test the connection to the local MySQL Database. You should be able to see a `MySQL Workbench` dialog box stating that a successful connection was made. Click on `OK` to dismiss the dialog box:  
     ![Home_Page_6.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_6.png)
     ![Home_Page_7.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_7.png)
 - Click on `OK` in the `Setup New Connection` dialog box to connect to the local database server:
@@ -217,12 +222,15 @@ B) We need to add 1 external libraries to the project settings for the code in t
 
 - `mysql-connector-j`: to connect to the database and process SQL queries through Java
 
-C) You can download the `mysql-connector-j` JAR by searching for it in google  
+C) You can download the `mysql-connector-j` JAR by searching for it in google
+
+- Or you can go to [https://dev.mysql.com/downloads/file/?id=552110](https://dev.mysql.com/downloads/file/?id=552110), and click on `No thanks, just start my download` option to start download by browsing and selecting a download location
+
 D) To add the downloaded JAR to the project settings for the code, follow the steps below
 
 - Click on the gear icon (similar to '⚙️') on the top right section of the IDE window:
     ![Page_3.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_3.png)
-- Select the `Project Structure...` option in the drop-down menu:
+- Select the `Project Structure...` option in the drop-down menu:  
     ![Page_4.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_4.png)
 - Click on the `Libraries` tab option inside the `Project Structure` dialog box:
     ![Page_5.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_5.png)
@@ -230,7 +238,7 @@ D) To add the downloaded JAR to the project settings for the code, follow the st
     ![Page_6.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_6.png)
 - Select the `Java` option in the `New Project Library` drop-down menu:
     ![Page_7.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_7.png)
-- In the `Select Library Files` dialog box, browse to the downloaded JAR file location, single-click to select the JAR file, and click on the `Open` button:
+- In the `Select Library Files` dialog box, browse to the downloaded JAR zip file location and extract the zip file (my downloaded JAR version may not be the up-to-date), browse to the unzipped folder location and single-click to select the JAR file, and click on the `Open` button:
     ![Page_8.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_8.png)
 - In the `Choose Modules` dialog box, the project repository is already selected as the target module, so click on the `OK` button:
     ![Page_9.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_9.png)
@@ -288,7 +296,93 @@ C) Update a Student Record:
     ![Page_18.png](README_Application_Screenshots/App_Usage/Page_18.png)
 - In the `Update Existing Student Record` screen, enter the necessary user input data, and click on the `Update Student Record` button:
     ![Page_19.png](README_Application_Screenshots/App_Usage/Page_19.png)
-- If the user input data is valid, and the input roll number value exists in the `student` table, then `Data Update Successful` information message dialog box is displayed, which can be dismissed by clicking on the `OK` button:
+- If the user input data is valid, and the input roll number value exists in the `student` table, then `Data Update Successful` information message dialog box is displayed, which can be dismissed by clicking on the `OK` button:  
     ![Page_20.png](README_Application_Screenshots/App_Usage/Page_20.png)
 - Click on the `Return to User Options` button to return to the `Student Management System Options` screen:
     ![Page_21.png](README_Application_Screenshots/App_Usage/Page_21.png)
+
+D) Delete a Student Record:
+
+- In the `Student Management System Options` screen, click on the `Delete Student Record` button:
+    ![Page_22.png](README_Application_Screenshots/App_Usage/Page_22.png)
+- In the `Delete Existing Student Record` screen, enter an existing roll number value, and click on the `Delete Student Record` button:
+    ![Page_23.png](README_Application_Screenshots/App_Usage/Page_23.png)
+- If the roll number value is valid, and it exists in the database, then a `Data Deletion Successful` information message dialog box is displayed, which can be dismissed by clicking on the `OK` button:
+    ![Page_24.png](README_Application_Screenshots/App_Usage/Page_24.png)
+- Click on the `Return to User Options` button to return to the `Student Management System Options` screen:
+    ![Page_25.png](README_Application_Screenshots/App_Usage/Page_25.png)
+
+E) Search for Student Records By Name:
+
+- In the `Student Management System Options` screen, click on the `Search Student Record` button:
+    ![Page_26.png](README_Application_Screenshots/App_Usage/Page_26.png)
+- In the `Student Search Options` screen, click on the `Search By Name` button:
+    ![Page_27.png](README_Application_Screenshots/App_Usage/Page_27.png)
+- In the `Search By Name Input` screen section, enter an existing student name in the `Existing Name` field, and click on the `Search` button:
+    ![Page_28.png](README_Application_Screenshots/App_Usage/Page_28.png)
+- If the input value is valid and exists in the database, a `Search Successful` information message dialog box is displayed, along with the search result in table format. Click on the `OK` button to close the box and see the search result:  
+    ![Page_29.png](README_Application_Screenshots/App_Usage/Page_29.png)
+    ![Page_30.png](README_Application_Screenshots/App_Usage/Page_30.png)
+- Click on the `Return to Search Options` button to return to the `Student Search Options` screen:
+    ![Page_31.png](README_Application_Screenshots/App_Usage/Page_31.png)
+
+F) Search for Student Records By Roll Number:
+
+- In the `Student Search Options` screen, click on the `Search By Roll Number` button:
+    ![Page_32.png](README_Application_Screenshots/App_Usage/Page_32.png)
+- In the `Search By Roll Number Input` screen section, enter an existing roll number, and click on the `Search` button:
+    ![Page_33.png](README_Application_Screenshots/App_Usage/Page_33.png)
+- If the input is valid and exists in the database table, a `Search Successful` information message dialog box is displayed, along with the search result in table format. Click on the `OK` button to close the box and see the search result:  
+    ![Page_34.png](README_Application_Screenshots/App_Usage/Page_34.png)
+    ![Page_35.png](README_Application_Screenshots/App_Usage/Page_35.png)
+- Click on the `Return to Search Options` button to return to the `Student Search Options` screen:
+    ![Page_35.png](README_Application_Screenshots/App_Usage/Page_35.png)
+
+E) Search for Student Records By Department:
+
+- In the `Student Search Options` screen, click on the `Search By Department` button:
+    ![Page_32.png](README_Application_Screenshots/App_Usage/Page_32.png)
+- In the `Search By Department Input` screen section, enter an existing department name, and click on the `Search` button:
+    ![Page_36.png](README_Application_Screenshots/App_Usage/Page_36.png)
+- If the input is valid and exists in the database table, a `Search Successful` information message dialog box is displayed, along with the search result in table format. Click on the `OK` button to close the box and see the search result:  
+    ![Page_37.png](README_Application_Screenshots/App_Usage/Page_37.png)
+    ![Page_38.png](README_Application_Screenshots/App_Usage/Page_38.png)
+- Click on the `Return to Search Options` button to return to the `Student Search Options` screen:
+    ![Page_38.png](README_Application_Screenshots/App_Usage/Page_38.png)
+
+F) Search for Student By Marks Range:
+
+- In the `Student Search Options` screen, click on the `Search By Marks` button:
+    ![Page_32.png](README_Application_Screenshots/App_Usage/Page_32.png)
+- In the `Search By Marks Range Input` screen section, enter a upper and lower limit for the marks, and click on the `Search` button:
+    ![Page_39.png](README_Application_Screenshots/App_Usage/Page_39.png)
+- If the input is valid and student records exist in the marks range, a `Search Successful` information message dialog box is displayed, along with the search result in table format. Click on the `OK` button to close the box and see the search result:  
+    ![Page_40.png](README_Application_Screenshots/App_Usage/Page_40.png)
+    ![Page_41.png](README_Application_Screenshots/App_Usage/Page_41.png)
+- Click on the `Return to Search Options` button to return to the `Student Search Options` screen:
+    ![Page_41.png](README_Application_Screenshots/App_Usage/Page_41.png)
+
+E) See Student Statistics:
+
+- Click on the `Return to User Options` button to return to the `Student Management System Options` screen:
+    ![Page_32.png](README_Application_Screenshots/App_Usage/Page_32.png)
+- In the `Student Management System Options` screen, click on the `Student Statistics` button:
+    ![Page_42.png](README_Application_Screenshots/App_Usage/Page_42.png)
+- In the `Student Statistic Options` screen, click on the `Total Student Count and Highest And Lowest Marks` button:
+    ![Page_43.png](README_Application_Screenshots/App_Usage/Page_43.png)
+- The total student count and highest and lowest marks are displayed in table format:
+    ![Page_44.png](README_Application_Screenshots/App_Usage/Page_44.png)
+- Click on the `Return to Student Statistic Options` button to return to the `Student Statistic Options` screen:
+    ![Page_44.png](README_Application_Screenshots/App_Usage/Page_44.png)
+- In the `Student Statistic Options` screen, click on the `Student Count By Department` button:
+    ![Page_43.png](README_Application_Screenshots/App_Usage/Page_43.png)
+- The Department-wise student count is displayed in table format:
+    ![Page_45.png](README_Application_Screenshots/App_Usage/Page_45.png)
+- Click on the `Return to Student Statistic Options` button to return to the `Student Statistic Options` screen:
+    ![Page_45.png](README_Application_Screenshots/App_Usage/Page_45.png)
+    ![Page_43.png](README_Application_Screenshots/App_Usage/Page_43.png)
+
+## Future Improvements
+
+- Will add subject-wise marks entry option
+- Will experiment with different UI libraries, and even creating UIs in other programming languages (like `ReactJS`)
