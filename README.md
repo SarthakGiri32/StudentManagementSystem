@@ -240,3 +240,44 @@ D) To add the downloaded JAR to the project settings for the code, follow the st
 ### II) Launch, Navigation and Using All App Features
 #### Step 1: Launching the App
 
+- Go to `src -> com -> sarthakgiri -> studentmanagementsystem -> main` to reach the directory containing the `MainApp.java` file
+- If everything has been setup correctly, then you will be able to see a play icon (similar to '▶'️) beside the `Current File` option in the right-side of the top menu bar:
+    ![Page_1.png](README_Application_Screenshots/App_Usage/Page_1.png)
+- Click on that icon, and after some build processing steps done internally by Java and the IDE, the `Student Management System` App should load in the `MySQL Login` screen:
+    ![Page_2.png](README_Application_Screenshots/App_Usage/Page_2.png)
+- Enter the username and password that you created in the `Add a MySQL User Account` section of the MySQL installation steps in the `MySQL Username` and `MySQL Password` fields, and click on the `Login` button to validate the user credentials and enter the app:
+    ![Page_3.png](README_Application_Screenshots/App_Usage/Page_3.png)
+- If the username and password are correct, then you will see a `MySQL Login Success` dialog box. Click on the `OK` button to enter the app:
+    ![Page_4.png](README_Application_Screenshots/App_Usage/Page_4.png)
+    ![Page_7.png](README_Application_Screenshots/App_Usage/Page_7.png)
+
+#### Step 2: Navigating through the App and using all app features
+
+A) Creating a new student record
+
+- In the `Student Management System Options` screen, click on the `Create Student Record` button:
+    ![Page_5.png](README_Application_Screenshots/App_Usage/Page_5.png)
+- In the `Create New Student Record` screen, enter the data for the new student in all input fields:
+    ![Page_6.png](README_Application_Screenshots/App_Usage/Page_6.png)
+- Click on the `Create Student Record` button to create a new student record, and if all input values are valid, then a `New Student Record Creation Successful` information message dialog will be displayed, and can be dismissed by clicking on the `OK` button. Thus, a new student record was successfully created:
+    ![Page_8.png](README_Application_Screenshots/App_Usage/Page_8.png)
+    ![Page_9.png](README_Application_Screenshots/App_Usage/Page_9.png)
+- Click on the `Return to User Options` button to return to the `Student Management System Options` screen:
+    ![Page_10.png](README_Application_Screenshots/App_Usage/Page_10.png)
+
+B) Read All Student Records
+
+- In the `Student Management System Options` screen, click on the `Read Student Records` button:
+    ![Page_11.png](README_Application_Screenshots/App_Usage/Page_11.png)
+- Since the `student` table already has some existing records, you will be able to see all records displayed in a table format:
+    ![Page_12.png](README_Application_Screenshots/App_Usage/Page_12.png)
+- In the `Student Table Display` screen, click on the `Download Student Table as CSV` button to export the entire `student` table as a CSV file:
+    ![Page_13.png](README_Application_Screenshots/App_Usage/Page_13.png)
+- In the `Save Student List as CSV File` dialog box, navigate to the location where you want to export the CSV file, change the name of the file in the `File Name` field (if necessary), and click on the `Save` button. If a CSV file with the same file name as the new CSV file already exists, then that file will be overridden:
+    ![Page_14.png](README_Application_Screenshots/App_Usage/Page_14.png)
+- If the database reading and file export operations were successful, then the `Export Successful` information message dialog box will be display. Click on the `OK` button to close the box:
+    ![Page_15.png](README_Application_Screenshots/App_Usage/Page_15.png)
+- The exported CSV file will look something like this:
+    ![Page_16.png](README_Application_Screenshots/App_Usage/Page_16.png)
+- In the `Student Table Display` screen, click on the `Return to User Options` button to return to the `Student Management System Options` screen:
+    ![Page_17.png](README_Application_Screenshots/App_Usage/Page_17.png)
