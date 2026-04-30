@@ -4,6 +4,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/**
+ * This is the main class that initializes all app panels and starts the app from the login page
+ */
 public class MainApp extends JFrame implements PanelNames{
 
     public MainApp() {

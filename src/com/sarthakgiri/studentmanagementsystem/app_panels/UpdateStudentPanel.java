@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * This class contains all the code for updating any column in a student record based on user input in a screen
+ */
 public class UpdateStudentPanel extends BasePanel {
 
     private String username, password, databaseUrl;
@@ -52,25 +55,25 @@ public class UpdateStudentPanel extends BasePanel {
         gbc.gridx = 0; gbc.gridy = 3;
         JButton updateStudentRecordButton = new JButton("Update Student Record");
         updateStudentRecordButton.setPreferredSize(new Dimension(200, 32));
-        updateStudentRecordButton.addActionListener(e -> updateStudentRecord());
+        updateStudentRecordButton.addActionListener(_ -> updateStudentRecord());
         updateStudentRecordPanel.add(updateStudentRecordButton, gbc);
 
         gbc.gridx = 1;
         JButton clearInputFieldsButton = new JButton("Clear Input Fields");
         clearInputFieldsButton.setPreferredSize(new Dimension(200, 32));
-        clearInputFieldsButton.addActionListener(e -> clearInputFields());
+        clearInputFieldsButton.addActionListener(_ -> clearInputFields());
         updateStudentRecordPanel.add(clearInputFieldsButton, gbc);
 
         gbc.gridx = 0; gbc.gridy = 4;
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
+        returnToUserOptionsButton.addActionListener(_ -> navigationController.navigateTo(USER_OPTIONS));
         updateStudentRecordPanel.add(returnToUserOptionsButton, gbc);
 
         gbc.gridx = 1;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         updateStudentRecordPanel.add(logoutButton, gbc);
 
         return updateStudentRecordPanel;
@@ -87,6 +90,9 @@ public class UpdateStudentPanel extends BasePanel {
         clearInputFields();
     }
 
+    /**
+     * Validates user input and calls the function to update student record in the database
+     */
     private void updateStudentRecord() {
         
         String columnName = columnNameField.getText().trim();
@@ -208,6 +214,11 @@ public class UpdateStudentPanel extends BasePanel {
 
     }
 
+    /**
+     * Validates the existence of a roll number in the database
+     * @param rollNumber the value to validate
+     * @return boolean 'true' if the value exists in the database
+     */
     private boolean doesRollNumberExist(String rollNumber) {
 
         String validateRollNumberExistenceSQL = "SELECT EXISTS(SELECT 1 FROM student WHERE roll_no = ?)";
@@ -227,7 +238,7 @@ public class UpdateStudentPanel extends BasePanel {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error:\n" + e.toString(),
+                "Error:\n" + e,
                 "MySQL Error",
                 JOptionPane.WARNING_MESSAGE
             );
@@ -236,12 +247,18 @@ public class UpdateStudentPanel extends BasePanel {
         return false;
     }
 
+    /**
+     * Updates the value in a specific column of a student record in the database
+     * @param columnName the column whose value has to be updated
+     * @param newColumnData the new value
+     * @param rollNumber used to locate the student record that has to be updated
+     */
     private void updateStudentRecordData(String columnName, String newColumnData, String rollNumber) {
         
         String updateStudentRecordSQL = "UPDATE student SET " + columnName + " = ? WHERE roll_no = ?";
         String updateStudentMarksAndGradeSQL = "UPDATE student SET marks = ?, grade = ? WHERE roll_no = ?";
 
-        int rowAffected = 0;
+        int rowAffected;
 
         try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
             PreparedStatement preparedStatement = connection.prepareStatement(updateStudentRecordSQL);
@@ -280,7 +297,7 @@ public class UpdateStudentPanel extends BasePanel {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error:\n" + e.toString(),
+                "Error:\n" + e,
                 "MySQL Error",
                 JOptionPane.WARNING_MESSAGE
             );

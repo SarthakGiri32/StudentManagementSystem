@@ -15,6 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * This class contains all the code for deleting a student record based on the user input in a screen
+ */
 public class DeleteStudentPanel extends BasePanel {
 
     private String databaseUrl, username, password;
@@ -39,25 +42,25 @@ public class DeleteStudentPanel extends BasePanel {
         gbc.gridx = 0; gbc.gridy = 1;
         JButton deleteStudentRecordButton = new JButton("Delete Student Record");
         deleteStudentRecordButton.setPreferredSize(new Dimension(200, 32));
-        deleteStudentRecordButton.addActionListener(e -> deleteStudentRecord());
+        deleteStudentRecordButton.addActionListener(_ -> deleteStudentRecord());
         deleteStudentRecordsPanel.add(deleteStudentRecordButton, gbc);
 
         gbc.gridx = 1;
         JButton clearInputFieldsButton = new JButton("Clear Input Fields");
         clearInputFieldsButton.setPreferredSize(new Dimension(200, 32));
-        clearInputFieldsButton.addActionListener(e -> clearInputFields());
+        clearInputFieldsButton.addActionListener(_ -> clearInputFields());
         deleteStudentRecordsPanel.add(clearInputFieldsButton, gbc);
 
         gbc.gridx = 0; gbc.gridy = 2;
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
+        returnToUserOptionsButton.addActionListener(_ -> navigationController.navigateTo(USER_OPTIONS));
         deleteStudentRecordsPanel.add(returnToUserOptionsButton, gbc);
 
         gbc.gridx = 1;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         deleteStudentRecordsPanel.add(logoutButton, gbc);
 
         return deleteStudentRecordsPanel;
@@ -75,6 +78,9 @@ public class DeleteStudentPanel extends BasePanel {
 
     }
 
+    /**
+     * Validates user input and deletes a student record from the database
+     */
     private void deleteStudentRecord() {
         
         String rollNumber = rollNumberField.getText().trim();
@@ -124,13 +130,18 @@ public class DeleteStudentPanel extends BasePanel {
         } catch (SQLException e) {
             
             JOptionPane.showMessageDialog(this, 
-                "Error:\n" + e.toString(),
+                "Error:\n" + e,
                 "MySQL Error",
                 JOptionPane.WARNING_MESSAGE);
         }
 
     }
 
+    /**
+     * Validates the existence of a roll number in the database
+     * @param rollNumber the value to validate
+     * @return boolean 'true' if the value exists in the database
+     */
     private boolean doesRollNumberExist(String rollNumber) {
 
         String validateRollNumberExistenceSQL = "SELECT EXISTS(SELECT 1 FROM student WHERE roll_no = ?)";
@@ -150,7 +161,7 @@ public class DeleteStudentPanel extends BasePanel {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, 
-                "Error:\n" + e.toString(),
+                "Error:\n" + e,
                 "MySQL Error",
                 JOptionPane.WARNING_MESSAGE
             );

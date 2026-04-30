@@ -18,6 +18,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * This class contains all the code for displaying the department-wise student count in table format
+ */
 public class StudentCountByDepartmentPanel extends BasePanel implements StatisticsDisplayColumnNames {
 
     private String databaseUrl, username, password;
@@ -52,12 +55,12 @@ public class StudentCountByDepartmentPanel extends BasePanel implements Statisti
 
         JButton returnToStudentStatisticOptionsButton = new JButton("Return to Student Statistic Options");
         returnToStudentStatisticOptionsButton.setPreferredSize(new Dimension(300, 32));
-        returnToStudentStatisticOptionsButton.addActionListener(e -> navigationController.navigateTo(STUDENT_STATS));
+        returnToStudentStatisticOptionsButton.addActionListener(_ -> navigationController.navigateTo(STUDENT_STATS));
         returnToStudentStatisticOptionsPanel.add(returnToStudentStatisticOptionsButton);
 
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(300, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         returnToStudentStatisticOptionsPanel.add(logoutButton);
 
         studentCountByDepartmentTablePanel.add(studentCountByDepartmentTableScrollPane, BorderLayout.CENTER);
@@ -78,69 +81,60 @@ public class StudentCountByDepartmentPanel extends BasePanel implements Statisti
 
     }
 
+    /**
+     * Retrieves and displays the department-wise student count in table format
+     */
     private void displayStudentCountByDepartment() {
         
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
             @Override
             protected Void doInBackground() {
 
                 String studentCountByDepartmentSQL = "SELECT department, COUNT(*) AS total_students " +
-                                                    "FROM student GROUP BY department ORDER BY total_students DESC";
-                                                    
+                        "FROM student GROUP BY department ORDER BY total_students DESC";
+
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(studentCountByDepartmentSQL);
-                    ResultSet resultSet = preparedStatement.executeQuery())
-                {
+                     PreparedStatement preparedStatement = connection.prepareStatement(studentCountByDepartmentSQL);
+                     ResultSet resultSet = preparedStatement.executeQuery()) {
 
                     studentCountByDepartmentTableModel.setRowCount(0);
                     while (resultSet.next()) {
-                        studentCountByDepartmentTableModel.addRow(new Object[] {
-                            resultSet.getString("department"),
-                            resultSet.getInt("total_students")
+                        studentCountByDepartmentTableModel.addRow(new Object[]{
+                                resultSet.getString("department"),
+                                resultSet.getInt("total_students")
                         });
                     }
 
-                    if (studentCountByDepartmentTableModel.getRowCount() > 0) {
+                    if (studentCountByDepartmentTableModel.getRowCount() == 0) {
 
                         SwingUtilities.invokeLater(() ->
 
-                            JOptionPane.showMessageDialog(StudentCountByDepartmentPanel.this,
-                                "Student count by department has been retrieved successfully",
-                                "Department-wise Student Count Retrieval Successful",
-                                JOptionPane.INFORMATION_MESSAGE)
-
-                        );
-
-                    } else {
-
-                        SwingUtilities.invokeLater(() ->
-
-                            JOptionPane.showMessageDialog(StudentCountByDepartmentPanel.this,
-                                "Student count by department retrieval failed",
-                                "Department-wise Student Count Retrieval Failed",
-                                JOptionPane.WARNING_MESSAGE)
+                                JOptionPane.showMessageDialog(StudentCountByDepartmentPanel.this,
+                                        "Student count by department retrieval failed",
+                                        "Department-wise Student Count Retrieval Failed",
+                                        JOptionPane.WARNING_MESSAGE)
 
                         );
 
                     }
 
                 } catch (SQLException e) {
-                            
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(StudentCountByDepartmentPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(StudentCountByDepartmentPanel.this,
+                                    "Error:\n" + e,
+                                    "MySQL Error",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
                 }
-                
+
                 return null;
 
             }
-            
+
         };
 
         worker.execute();

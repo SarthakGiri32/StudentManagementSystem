@@ -7,6 +7,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * This class contains all the code for displaying various database search options in a screen
+ */
 public class SearchStudentPanel extends BasePanel {
 
     @Override
@@ -22,37 +25,37 @@ public class SearchStudentPanel extends BasePanel {
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 1;
         JButton studentNameSearchButton = new JButton("Search By Name");
         studentNameSearchButton.setPreferredSize(new Dimension(200, 32));
-        studentNameSearchButton.addActionListener(e -> navigationController.navigateTo(NAME_SEARCH));
+        studentNameSearchButton.addActionListener(_ -> navigationController.navigateTo(NAME_SEARCH));
         searchOptionsPanel.add(studentNameSearchButton, gbc);
 
         gbc.gridy = 1;
         JButton studentRollNumberSearchButton = new JButton("Search By Roll Number");
         studentRollNumberSearchButton.setPreferredSize(new Dimension(200, 32));
-        studentRollNumberSearchButton.addActionListener(e -> navigationController.navigateTo(ROLL_NUMBER_SEARCH));
+        studentRollNumberSearchButton.addActionListener(_ -> navigationController.navigateTo(ROLL_NUMBER_SEARCH));
         searchOptionsPanel.add(studentRollNumberSearchButton, gbc);
 
         gbc.gridy = 2;
         JButton studentDepartmentSearchButton = new JButton("Search By Department");
         studentDepartmentSearchButton.setPreferredSize(new Dimension(200, 32));
-        studentDepartmentSearchButton.addActionListener(e -> navigationController.navigateTo(DEPARTMENT_SEARCH));
+        studentDepartmentSearchButton.addActionListener(_ -> navigationController.navigateTo(DEPARTMENT_SEARCH));
         searchOptionsPanel.add(studentDepartmentSearchButton, gbc);
 
         gbc.gridy = 3;
         JButton studentMarksSearchButton = new JButton("Search By Marks");
         studentMarksSearchButton.setPreferredSize(new Dimension(200, 32));
-        studentMarksSearchButton.addActionListener(e -> navigationController.navigateTo(MARKS_RANGE_SEARCH));
+        studentMarksSearchButton.addActionListener(_ -> navigationController.navigateTo(MARKS_RANGE_SEARCH));
         searchOptionsPanel.add(studentMarksSearchButton, gbc);
 
         gbc.gridy = 4;
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
+        returnToUserOptionsButton.addActionListener(_ -> navigationController.navigateTo(USER_OPTIONS));
         searchOptionsPanel.add(returnToUserOptionsButton, gbc);
 
         gbc.gridy = 5;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         searchOptionsPanel.add(logoutButton, gbc); 
 
         return searchOptionsPanel;

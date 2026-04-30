@@ -30,6 +30,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * This class contains all the code for displaying the entire student database table in a screen
+ */
 public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNames {
 
     private DefaultTableModel studentTableModel;
@@ -84,20 +87,20 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         downloadButton.setFocusPainted(false);
         downloadButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         downloadButton.setPreferredSize(new Dimension(320, 50));
-        downloadButton.addActionListener(e -> downloadStudentListAsCSV());
+        downloadButton.addActionListener(_ -> downloadStudentListAsCSV());
         buttonsPanel.add(downloadButton, gbc);
 
-        // 'Go back to user options' button
         JPanel returnButtonsFlowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
 
+        // 'Go back to user options' button
         JButton returnToUserOptionsButton = new JButton("Return to User Options");
         returnToUserOptionsButton.setPreferredSize(new Dimension(200, 20));
-        returnToUserOptionsButton.addActionListener(e -> navigationController.navigateTo(USER_OPTIONS));
+        returnToUserOptionsButton.addActionListener(_ -> navigationController.navigateTo(USER_OPTIONS));
         returnButtonsFlowPanel.add(returnToUserOptionsButton);   
 
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(100, 20));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         returnButtonsFlowPanel.add(logoutButton);
 
         gbc.gridy = 1;
@@ -109,6 +112,9 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         return studentTableDisplayPanel;
     }
 
+    /**
+     * Displays a 'Save file' dialog box for the user to choose the destination for saving the exported CSV file
+     */
     private void downloadStudentListAsCSV() {
         
         JFileChooser fileChooser = new JFileChooser();
@@ -132,6 +138,10 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
 
     }
 
+    /**
+     * Executes the database and file writing code in the 'exportStudentListToCSV' function in the background without compromising the UI
+     * @param fileToSave 'File' class datatype object that points to the exported CSV file
+     */
     private void exportStudentListToCSVInBackground(File fileToSave) {
         
         SwingWorker<Integer, Void> worker = new SwingWorker<>() {
@@ -161,7 +171,7 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
                 } catch (Exception ex) {
 
                     JOptionPane.showMessageDialog(ReadStudentPanel.this,
-                        "Export failed: " + ex.toString(),
+                        "Export failed: " + ex,
                         "Export Error",
                         JOptionPane.WARNING_MESSAGE);
 
@@ -183,6 +193,11 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
 
     }
 
+    /**
+     * Executes the database reading and file writing code for exporting the student table records to a CSV file
+     * @param fileToSave 'File' class datatype object that points to the exported CSV file
+     * @return the number of rows written to the exported CSV file
+     */
     private int exportStudentListToCSV(File fileToSave) {
         
         String exportStudentListToCSVSQL = "SELECT * FROM student";
@@ -223,7 +238,7 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         } catch (SQLException e) {
 
             JOptionPane.showMessageDialog(this,
-                "Database error: " + e.toString(),
+                "Database error: " + e,
                 "MySQL Error",
                 JOptionPane.WARNING_MESSAGE);
             return -1;
@@ -231,7 +246,7 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         } catch (IOException e) {
             
             JOptionPane.showMessageDialog(this,
-                "File error: " + e.toString(),
+                "File error: " + e,
                 "File Error",
                 JOptionPane.WARNING_MESSAGE);
             return -1;
@@ -240,6 +255,11 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
 
     }
 
+    /**
+     * Surrounds values containing certain special characters with double quotes to prevent CSV parsing errors
+     * @param value the data containing special characters
+     * @return the value enclosed in double quotes
+     */
     private String escapeSpecialCharactersInCSV(String value) {
         if (value == null) return "";
 
@@ -266,53 +286,55 @@ public class ReadStudentPanel extends BasePanel implements TableDisplayColumnNam
         displayAllStudentRecords();
     }
 
+    /**
+     * Retrieves and displays all student records in a Swing GUI table
+     */
     private void displayAllStudentRecords() {
         
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
-                
+
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password)) {
 
                     String readStudentDetailsSQLInOrder = "SELECT * FROM student ORDER BY id ASC";
 
                     try (Statement statement = connection.createStatement();
-                        ResultSet resultSet = statement.executeQuery(readStudentDetailsSQLInOrder)) 
-                    {
-                        
+                         ResultSet resultSet = statement.executeQuery(readStudentDetailsSQLInOrder)) {
+
                         studentTableModel.setRowCount(0);
                         while (resultSet.next()) {
                             studentTableModel.addRow(new Object[]{
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getString("roll_no"),
-                                resultSet.getString("department"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone"),
-                                resultSet.getInt("marks"),
-                                resultSet.getString("grade")
+                                    resultSet.getInt("id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("roll_no"),
+                                    resultSet.getString("department"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone"),
+                                    resultSet.getInt("marks"),
+                                    resultSet.getString("grade")
                             });
                         }
                     } catch (SQLException e) {
-                            
+
                         SwingUtilities.invokeLater(() ->
 
-                            JOptionPane.showMessageDialog(ReadStudentPanel.this,
-                                "Error: Student data reading failed:\n" + e.toString(),
-                                "Database reading error",
-                                JOptionPane.WARNING_MESSAGE)
+                                JOptionPane.showMessageDialog(ReadStudentPanel.this,
+                                        "Error: Student data reading failed:\n" + e,
+                                        "Database reading error",
+                                        JOptionPane.WARNING_MESSAGE)
 
                         );
                     }
 
                 } catch (SQLException e) {
-                        
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(ReadStudentPanel.this,
-                            "Error: MySQL server connection failed:\n" + e.toString(),
-                            "Server connection failed",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(ReadStudentPanel.this,
+                                    "Error: MySQL server connection failed:\n" + e,
+                                    "Server connection failed",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
 

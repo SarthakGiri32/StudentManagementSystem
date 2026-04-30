@@ -21,6 +21,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * This class contains all the code for displaying the total student count and highest and lowest marks in table format in a screen
+ */
 public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel implements StatisticsDisplayColumnNames {
 
     private String databaseUrl, username, password;
@@ -47,12 +50,12 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
 
         JButton returnToStudentStatisticOptionsButton = new JButton("Return to Student Statistic Options");
         returnToStudentStatisticOptionsButton.setPreferredSize(new Dimension(300, 32));
-        returnToStudentStatisticOptionsButton.addActionListener(e -> navigationController.navigateTo(STUDENT_STATS));
+        returnToStudentStatisticOptionsButton.addActionListener(_ -> navigationController.navigateTo(STUDENT_STATS));
         returnToStudentStatisticOptionsPanel.add(returnToStudentStatisticOptionsButton);
 
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(300, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         returnToStudentStatisticOptionsPanel.add(logoutButton);
 
         gbc.gridx = 0; gbc.gridy = 2;
@@ -75,6 +78,10 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
 
     }
 
+    /**
+     * This panel section displays the total student count in table format
+     * @return a JPanel object containing all the elements necessary to display the total student count
+     */
     private JPanel createStudentCountPanel() {
         
         JPanel studentCountTablePanel = new JPanel(new BorderLayout(5, 5));
@@ -86,7 +93,7 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
-            };
+            }
         };
 
         JTable studentCountTable = new JTable(studentCountTableModel);
@@ -104,6 +111,10 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
 
     }
 
+    /**
+     * This panel section displays the highest and lowest marks in table format
+     * @return a JPanel object containing all the elements necessary to display the highest and lowest marks
+     */
     private JPanel createHighestAndLowestMarksPanel() {
         
         JPanel highestAndLowestMarksTablePanel = new JPanel(new BorderLayout(5, 5));
@@ -115,7 +126,7 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
-            };
+            }
         };
 
         JTable highestAndLowestMarksTable = new JTable(highestAndLowestMarksTableModel);
@@ -134,9 +145,12 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
 
     }
 
+    /**
+     * Retrieves and displays the total student count in table format
+     */
     private void displayStudentTotalCount() {
 
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
             @Override
             protected Void doInBackground() {
@@ -144,63 +158,55 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
                 String studentTotalCountSQL = "SELECT COUNT(*) AS total_students FROM student";
 
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(studentTotalCountSQL);
-                    ResultSet resultSet = preparedStatement.executeQuery())
-                {
-                    
+                     PreparedStatement preparedStatement = connection.prepareStatement(studentTotalCountSQL);
+                     ResultSet resultSet = preparedStatement.executeQuery()) {
+
                     studentCountTableModel.setRowCount(0);
                     if (resultSet.next()) {
-                        studentCountTableModel.addRow(new Object[] {
-                            resultSet.getInt("total_students")
+                        studentCountTableModel.addRow(new Object[]{
+                                resultSet.getInt("total_students")
                         });
-
-                        SwingUtilities.invokeLater(() ->
-
-                            JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
-                                "Total student count was retrieved successfully",
-                                "Total Student Count Retrieval Successful",
-                                JOptionPane.INFORMATION_MESSAGE)
-
-                        );
-
                     } else {
 
                         SwingUtilities.invokeLater(() ->
 
-                            JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
-                                "Total student count retrieval failed",
-                                "Total Student Count Retrieval Failed",
-                                JOptionPane.WARNING_MESSAGE)
+                                JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
+                                        "Total student count retrieval failed",
+                                        "Total Student Count Retrieval Failed",
+                                        JOptionPane.WARNING_MESSAGE)
 
                         );
 
                     }
 
                 } catch (SQLException e) {
-                            
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
+                                    "Error:\n" + e,
+                                    "MySQL Error",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
                 }
-                
+
                 return null;
 
             }
-            
+
         };
 
         worker.execute();
 
     }
-    
+
+    /**
+     * Retrieves and displays the highest and lowest marks in table format
+     */
     private void displayStudentHighestAndLowestMarks() {
 
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
             @Override
             protected Void doInBackground() {
@@ -208,55 +214,44 @@ public class StudentCountAndHighestAndLowestMarksPanel extends BasePanel impleme
                 String highestAndLowestMarksSQL = "SELECT MAX(marks) AS highest_marks, MIN(marks) AS lowest_marks FROM student";
 
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(highestAndLowestMarksSQL);
-                    ResultSet resultSet = preparedStatement.executeQuery())
-                {
-                
+                     PreparedStatement preparedStatement = connection.prepareStatement(highestAndLowestMarksSQL);
+                     ResultSet resultSet = preparedStatement.executeQuery()) {
+
                     highestAndLowestMarksTableModel.setRowCount(0);
                     if (resultSet.next()) {
-                        highestAndLowestMarksTableModel.addRow(new Object[] {
-                            resultSet.getInt("highest_marks"),
-                            resultSet.getInt("lowest_marks")
+                        highestAndLowestMarksTableModel.addRow(new Object[]{
+                                resultSet.getInt("highest_marks"),
+                                resultSet.getInt("lowest_marks")
                         });
-
-                        SwingUtilities.invokeLater(() ->
-
-                            JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
-                                "Highest and lowest marks have been retrieved successfully",
-                                "Highest and lowest Marks Retrieval Successful",
-                                JOptionPane.INFORMATION_MESSAGE)
-
-                        );
-
                     } else {
 
                         SwingUtilities.invokeLater(() ->
 
-                            JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
-                                "Highest and lowest marks retrieval failed",
-                                "Highest and lowest Marks Retrieval Failed",
-                                JOptionPane.WARNING_MESSAGE)
+                                JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
+                                        "Highest and lowest marks retrieval failed",
+                                        "Highest and lowest Marks Retrieval Failed",
+                                        JOptionPane.WARNING_MESSAGE)
 
                         );
 
                     }
-                    
+
                 } catch (SQLException e) {
-                            
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(StudentCountAndHighestAndLowestMarksPanel.this,
+                                    "Error:\n" + e,
+                                    "MySQL Error",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
                 }
-                
+
                 return null;
-                
+
             }
-            
+
         };
 
         worker.execute();
