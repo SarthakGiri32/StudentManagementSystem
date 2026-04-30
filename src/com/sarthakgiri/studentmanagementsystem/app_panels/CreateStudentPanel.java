@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * This class contains all the code to create a new student record from user input in a screen
+ */
 public class CreateStudentPanel extends BasePanel{
 
     private String username, password, databaseUrl;
@@ -123,7 +126,7 @@ public class CreateStudentPanel extends BasePanel{
     }
 
     /**
-     * Creates a new student record
+     * Validate user input and call the function to create a new student record
      */
     private void createNewStudentRecord() {
         

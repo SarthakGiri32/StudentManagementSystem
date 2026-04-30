@@ -23,6 +23,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * This class contains all the code for searching through the database based on a student marks range from user input in a screen
+ */
 public class StudentMarksSearchPanel extends BasePanel implements TableDisplayColumnNames {
 
     private String databaseUrl, username, password;
@@ -60,6 +63,10 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
         marksRangeUpperLimitField.requestFocus();
     }
 
+    /**
+     * This panel section displays the user input option
+     * @return a JPanel object containing all the elements necessary for user input
+     */
     private JPanel createSearchInputPanel() {
 
         JPanel searchInputFieldPanel = new JPanel(new GridBagLayout());
@@ -85,12 +92,12 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
 
         JButton searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(200, 32));
-        searchButton.addActionListener(e -> searchStudentByMarksRange());
+        searchButton.addActionListener(_ -> searchStudentByMarksRange());
         searchButtonPanel.add(searchButton);
 
         JButton returnToSearchOptionsButton = new JButton("Return to Search Options");
         returnToSearchOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToSearchOptionsButton.addActionListener(e -> navigationController.navigateTo(SEARCH_STUDENT));
+        returnToSearchOptionsButton.addActionListener(_ -> navigationController.navigateTo(SEARCH_STUDENT));
         searchButtonPanel.add(returnToSearchOptionsButton);
 
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
@@ -99,13 +106,16 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
         gbc.gridy = 3;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         searchInputFieldPanel.add(logoutButton, gbc);
 
         return searchInputFieldPanel;
 
     }
 
+    /**
+     * Validates the user search input and calls the function to display the search results
+     */
     private void searchStudentByMarksRange() {
 
         String lowerMarksLimit = marksRangeLowerLimitField.getText().trim();
@@ -137,41 +147,49 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
             }
             return;
         }
-        else if (!(Integer.parseInt(upperMarksLimit) >= 0 && Integer.parseInt(upperMarksLimit) <= 100) ||
-                !(Integer.parseInt(lowerMarksLimit) >= 0 && Integer.parseInt(lowerMarksLimit) <= 100))
-        {
-            searchResultTableModel.setRowCount(0);
+        else {
+            boolean upperMarksRangeValidation = !(Integer.parseInt(upperMarksLimit) >= 0 && Integer.parseInt(upperMarksLimit) <= 100);
+            boolean lowerMarksRangeValidation = !(Integer.parseInt(lowerMarksLimit) >= 0 && Integer.parseInt(lowerMarksLimit) <= 100);
+            if (upperMarksRangeValidation || lowerMarksRangeValidation)
+            {
+                searchResultTableModel.setRowCount(0);
 
-            if (!(Integer.parseInt(lowerMarksLimit) >= 0 && Integer.parseInt(lowerMarksLimit) <= 100)) {
+                if (lowerMarksRangeValidation) {
+                    JOptionPane.showMessageDialog(this,
+                        "Please enter lower marks limit between 0 and 100",
+                        "Validation Error",
+                        JOptionPane.WARNING_MESSAGE);
+                }
+                if (upperMarksRangeValidation) {
+                    JOptionPane.showMessageDialog(this,
+                        "Please enter upper marks limit between 0 and 100",
+                        "Validation Error",
+                        JOptionPane.WARNING_MESSAGE);
+                }
+                return;
+            }
+            else if (Integer.parseInt(upperMarksLimit) < Integer.parseInt(lowerMarksLimit)) {
+                searchResultTableModel.setRowCount(0);
                 JOptionPane.showMessageDialog(this,
-                    "Please enter lower marks limit between 0 and 100",
+                    "The upper marks limit cannot be less than the lower marks limit",
                     "Validation Error",
                     JOptionPane.WARNING_MESSAGE);
+                return;
             }
-            if (!(Integer.parseInt(upperMarksLimit) >= 0 && Integer.parseInt(upperMarksLimit) <= 100)) {
-                JOptionPane.showMessageDialog(this,
-                    "Please enter upper marks limit between 0 and 100",
-                    "Validation Error",
-                    JOptionPane.WARNING_MESSAGE);
-            }
-            return;
-        }
-        else if (Integer.parseInt(upperMarksLimit) < Integer.parseInt(lowerMarksLimit)) {
-            searchResultTableModel.setRowCount(0);
-            JOptionPane.showMessageDialog(this,
-                "The upper marks limit cannot be less than the lower marks limit",
-                "Validation Error",
-                JOptionPane.WARNING_MESSAGE);
-            return;
         }
 
         displaySearchResultTable(Integer.parseInt(lowerMarksLimit), Integer.parseInt(upperMarksLimit));
-        
+
     }
 
+    /**
+     * Retrieves and displays the search results from the database
+     * @param lowerMarksLimit the lower marks limit value from user input
+     * @param upperMarksLimit the upper marks limit value from user input
+     */
     private void displaySearchResultTable(int lowerMarksLimit, int upperMarksLimit) {
         
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
             @Override
             protected Void doInBackground() {
@@ -179,8 +197,7 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
                 String searchByMarksRangeSQL = "SELECT * FROM student WHERE marks BETWEEN ? AND ? ORDER BY marks DESC";
 
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(searchByMarksRangeSQL))
-                {
+                     PreparedStatement preparedStatement = connection.prepareStatement(searchByMarksRangeSQL)) {
 
                     preparedStatement.setInt(1, lowerMarksLimit);
                     preparedStatement.setInt(2, upperMarksLimit);
@@ -190,14 +207,14 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
                         searchResultTableModel.setRowCount(0);
                         while (resultSet.next()) {
                             searchResultTableModel.addRow(new Object[]{
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getString("roll_no"),
-                                resultSet.getString("department"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone"),
-                                resultSet.getInt("marks"),
-                                resultSet.getString("grade")
+                                    resultSet.getInt("id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("roll_no"),
+                                    resultSet.getString("department"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone"),
+                                    resultSet.getInt("marks"),
+                                    resultSet.getString("grade")
                             });
                         }
 
@@ -205,25 +222,25 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
 
                             SwingUtilities.invokeLater(() ->
 
-                                JOptionPane.showMessageDialog(StudentMarksSearchPanel.this,
-                                    "Search by marks range was successful",
-                                    "Search Successful",
-                                    JOptionPane.INFORMATION_MESSAGE)
+                                    JOptionPane.showMessageDialog(StudentMarksSearchPanel.this,
+                                            "Search by marks range was successful",
+                                            "Search Successful",
+                                            JOptionPane.INFORMATION_MESSAGE)
 
                             );
 
-                            SwingUtilities.invokeLater(() -> 
-                                clearInputFields()
+                            SwingUtilities.invokeLater(() ->
+                                    clearInputFields()
                             );
 
                         } else {
 
                             SwingUtilities.invokeLater(() ->
 
-                                JOptionPane.showMessageDialog(StudentMarksSearchPanel.this,
-                                    "Search by marks range failed",
-                                    "Search Failed",
-                                    JOptionPane.WARNING_MESSAGE)
+                                    JOptionPane.showMessageDialog(StudentMarksSearchPanel.this,
+                                            "Search by marks range failed",
+                                            "Search Failed",
+                                            JOptionPane.WARNING_MESSAGE)
 
                             );
 
@@ -232,27 +249,31 @@ public class StudentMarksSearchPanel extends BasePanel implements TableDisplayCo
                     }
 
                 } catch (SQLException e) {
-                            
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(StudentMarksSearchPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(StudentMarksSearchPanel.this,
+                                    "Error:\n" + e,
+                                    "MySQL Error",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
                 }
-                
+
                 return null;
 
             }
-            
+
         };
 
         worker.execute();
 
     }
 
+    /**
+     * This panel section displays the search results table
+     * @return a JPanel object containing all the elements necessary to display the search results table
+     */
     private JPanel createSearchResultDisplayPanel() {
         
         JPanel searchResultTablePanel = new JPanel(new BorderLayout(5, 5));

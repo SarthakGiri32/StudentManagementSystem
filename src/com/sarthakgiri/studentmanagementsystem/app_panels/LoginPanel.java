@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * The class contains all the code for the MySQL Login screen of the app (and is the first screen seen after opening the app)
+ * This class contains all the code for the MySQL Login screen of the app (and is the first screen seen after opening the app)
  */
 public class LoginPanel extends BasePanel {
 

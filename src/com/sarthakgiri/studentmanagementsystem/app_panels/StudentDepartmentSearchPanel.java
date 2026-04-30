@@ -23,6 +23,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * This class contains all the code for searching through the database based on student department name from user input in a screen
+ */
 public class StudentDepartmentSearchPanel extends BasePanel implements TableDisplayColumnNames {
 
     private String databaseUrl, username, password;
@@ -57,6 +60,10 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
         departmentSearchInputField.requestFocus();
     }
 
+    /**
+     * This panel section displays the user input option
+     * @return a JPanel object containing all the elements necessary for user input
+     */
     private JPanel createSearchInputPanel() {
         
         JPanel searchInputFieldPanel = new JPanel(new GridBagLayout());
@@ -76,12 +83,12 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
 
         JButton searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(200, 32));
-        searchButton.addActionListener(e -> searchStudentByDepartment());
+        searchButton.addActionListener(_ -> searchStudentByDepartment());
         searchButtonPanel.add(searchButton);
 
         JButton returnToSearchOptionsButton = new JButton("Return to Search Options");
         returnToSearchOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToSearchOptionsButton.addActionListener(e -> navigationController.navigateTo(SEARCH_STUDENT));
+        returnToSearchOptionsButton.addActionListener(_ -> navigationController.navigateTo(SEARCH_STUDENT));
         searchButtonPanel.add(returnToSearchOptionsButton);
 
         gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 2;
@@ -90,13 +97,17 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
         gbc.gridy = 2;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         searchInputFieldPanel.add(logoutButton, gbc);
 
         return searchInputFieldPanel;
         
     }
 
+    /**
+     * This panel section displays the search results table
+     * @return a JPanel object containing all the elements necessary to display the search results table
+     */
     private JPanel createSearchResultDisplayPanel() {
         
         JPanel searchResultTablePanel = new JPanel(new BorderLayout(5, 5));
@@ -134,6 +145,9 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
 
     }
 
+    /**
+     * Validates the user search input and calls the function to display the search results
+     */
     private void searchStudentByDepartment() {
         
         String department = departmentSearchInputField.getText().trim();
@@ -158,17 +172,20 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
 
     }
 
+    /**
+     * Retrieves and displays the search results from the database
+     * @param department the user search input value
+     */
     private void displaySearchResultTable(String department) {
         
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
 
                 String searchByDepartmentNameSQL = "SELECT * FROM student WHERE department = ?";
 
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(searchByDepartmentNameSQL))
-                {
+                     PreparedStatement preparedStatement = connection.prepareStatement(searchByDepartmentNameSQL)) {
 
                     preparedStatement.setString(1, department);
 
@@ -177,14 +194,14 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
                         searchResultTableModel.setRowCount(0);
                         while (resultSet.next()) {
                             searchResultTableModel.addRow(new Object[]{
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getString("roll_no"),
-                                resultSet.getString("department"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone"),
-                                resultSet.getInt("marks"),
-                                resultSet.getString("grade")
+                                    resultSet.getInt("id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("roll_no"),
+                                    resultSet.getString("department"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone"),
+                                    resultSet.getInt("marks"),
+                                    resultSet.getString("grade")
                             });
                         }
 
@@ -192,40 +209,40 @@ public class StudentDepartmentSearchPanel extends BasePanel implements TableDisp
 
                             SwingUtilities.invokeLater(() ->
 
-                                JOptionPane.showMessageDialog(StudentDepartmentSearchPanel.this,
-                                    "Search by department name was successful",
-                                    "Search Successful",
-                                    JOptionPane.INFORMATION_MESSAGE)
+                                    JOptionPane.showMessageDialog(StudentDepartmentSearchPanel.this,
+                                            "Search by department name was successful",
+                                            "Search Successful",
+                                            JOptionPane.INFORMATION_MESSAGE)
 
                             );
 
-                            SwingUtilities.invokeLater(() -> 
-                                clearInputFields()
+                            SwingUtilities.invokeLater(() ->
+                                    clearInputFields()
                             );
 
                         } else {
 
                             SwingUtilities.invokeLater(() ->
 
-                                JOptionPane.showMessageDialog(StudentDepartmentSearchPanel.this,
-                                    "Search by department name failed",
-                                    "Search Failed",
-                                    JOptionPane.WARNING_MESSAGE)
+                                    JOptionPane.showMessageDialog(StudentDepartmentSearchPanel.this,
+                                            "Search by department name failed",
+                                            "Search Failed",
+                                            JOptionPane.WARNING_MESSAGE)
 
                             );
 
                         }
-       
+
                     }
 
                 } catch (SQLException e) {
-                            
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(StudentDepartmentSearchPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(StudentDepartmentSearchPanel.this,
+                                    "Error:\n" + e,
+                                    "MySQL Error",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
                 }

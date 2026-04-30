@@ -24,6 +24,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * This class contains all the code for searching through the database based on student name from user input in a screen
+ */
 public class StudentNameSearchPanel extends BasePanel implements TableDisplayColumnNames {
 
     private String databaseUrl, username, password;
@@ -42,6 +45,10 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
 
     }
 
+    /**
+     * This panel section displays the user input option
+     * @return a JPanel object containing all the elements necessary for user input
+     */
     private JPanel createSearchInputPanel() {
         
         JPanel searchInputFieldPanel = new JPanel(new GridBagLayout());
@@ -61,12 +68,12 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
 
         JButton searchButton = new JButton("Search");
         searchButton.setPreferredSize(new Dimension(200, 32));
-        searchButton.addActionListener(e -> searchStudentByName());
+        searchButton.addActionListener(_ -> searchStudentByName());
         searchButtonPanel.add(searchButton);
 
         JButton returnToSearchOptionsButton = new JButton("Return to Search Options");
         returnToSearchOptionsButton.setPreferredSize(new Dimension(200, 32));
-        returnToSearchOptionsButton.addActionListener(e -> navigationController.navigateTo(SEARCH_STUDENT));
+        returnToSearchOptionsButton.addActionListener(_ -> navigationController.navigateTo(SEARCH_STUDENT));
         searchButtonPanel.add(returnToSearchOptionsButton);
 
         gbc.gridx = 0; gbc.gridy = 1; gbc.gridwidth = 2;
@@ -75,13 +82,16 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
         gbc.gridy = 2;
         JButton logoutButton = new JButton("Logout");
         logoutButton.setPreferredSize(new Dimension(200, 32));
-        logoutButton.addActionListener(e -> navigationController.navigateTo(LOGIN));
+        logoutButton.addActionListener(_ -> navigationController.navigateTo(LOGIN));
         searchInputFieldPanel.add(logoutButton, gbc);
 
         return searchInputFieldPanel;
 
     }
 
+    /**
+     * Validates the user search input and calls the function to display the search results
+     */
     private void searchStudentByName() {
         
         String name = nameSearchInputField.getText().trim();
@@ -109,17 +119,20 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
         
     }
 
+    /**
+     * Retrieves and displays the search results from the database
+     * @param name the user search input value
+     */
     private void displaySearchResultTable(String name) {
         
-        SwingWorker<Void, Void> worker = new SwingWorker<Void,Void>() {
+        SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {
 
                 String searchByNameSQL = "SELECT * FROM student WHERE name = ?";
 
                 try (Connection connection = DriverManager.getConnection(databaseUrl, username, password);
-                    PreparedStatement preparedStatement = connection.prepareStatement(searchByNameSQL))
-                {
+                     PreparedStatement preparedStatement = connection.prepareStatement(searchByNameSQL)) {
 
                     preparedStatement.setString(1, name);
 
@@ -128,50 +141,50 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
                         searchResultTableModel.setRowCount(0);
                         if (resultSet.next()) {
                             searchResultTableModel.addRow(new Object[]{
-                                resultSet.getInt("id"),
-                                resultSet.getString("name"),
-                                resultSet.getString("roll_no"),
-                                resultSet.getString("department"),
-                                resultSet.getString("email"),
-                                resultSet.getString("phone"),
-                                resultSet.getInt("marks"),
-                                resultSet.getString("grade")
+                                    resultSet.getInt("id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getString("roll_no"),
+                                    resultSet.getString("department"),
+                                    resultSet.getString("email"),
+                                    resultSet.getString("phone"),
+                                    resultSet.getInt("marks"),
+                                    resultSet.getString("grade")
                             });
 
                             SwingUtilities.invokeLater(() ->
 
-                                JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
-                                    "Search by name was successful",
-                                    "Search Successful",
-                                    JOptionPane.INFORMATION_MESSAGE)
+                                    JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
+                                            "Search by name was successful",
+                                            "Search Successful",
+                                            JOptionPane.INFORMATION_MESSAGE)
 
                             );
 
-                            SwingUtilities.invokeLater(() -> 
-                                clearInputFields()
+                            SwingUtilities.invokeLater(() ->
+                                    clearInputFields()
                             );
 
                         } else {
                             SwingUtilities.invokeLater(() ->
 
-                                JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
-                                    "Search by name failed",
-                                    "Search Failed",
-                                    JOptionPane.WARNING_MESSAGE)
+                                    JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
+                                            "Search by name failed",
+                                            "Search Failed",
+                                            JOptionPane.WARNING_MESSAGE)
 
                             );
                         }
-       
+
                     }
 
                 } catch (SQLException e) {
-                            
+
                     SwingUtilities.invokeLater(() ->
 
-                        JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
-                            "Error:\n" + e.toString(),
-                            "MySQL Error",
-                            JOptionPane.WARNING_MESSAGE)
+                            JOptionPane.showMessageDialog(StudentNameSearchPanel.this,
+                                    "Error:\n" + e,
+                                    "MySQL Error",
+                                    JOptionPane.WARNING_MESSAGE)
 
                     );
                 }
@@ -185,6 +198,10 @@ public class StudentNameSearchPanel extends BasePanel implements TableDisplayCol
 
     }
 
+    /**
+     * This panel section displays the search results table
+     * @return a JPanel object containing all the elements necessary to display the search results table
+     */
     private JPanel createSearchResultDisplayPanel() {
         
         JPanel searchResultTablePanel = new JPanel(new BorderLayout(5, 5));

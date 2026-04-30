@@ -2,12 +2,12 @@
  * Contains all column header names used in displaying all columns in the student database table
  */
 public interface TableDisplayColumnNames {
-    public static final String ID = "ID";
-    public static final String NAME = "Name";
-    public static final String ROLL_NUMBER = "Roll Number";
-    public static final String DEPARTMENT = "Department";
-    public static final String EMAIL_ID = "Email ID";
-    public static final String PHONE_NUMBER = "Phone Number";
-    public static final String MARKS = "Marks";
-    public static final String GRADE = "Grade";
+    String ID = "ID";
+    String NAME = "Name";
+    String ROLL_NUMBER = "Roll Number";
+    String DEPARTMENT = "Department";
+    String EMAIL_ID = "Email ID";
+    String PHONE_NUMBER = "Phone Number";
+    String MARKS = "Marks";
+    String GRADE = "Grade";
 }
