@@ -10,7 +10,7 @@ statistics.
 
 ## Application usage instructions
 1. [How to set up the database](#Database-Setup)
-2. How to run the application
+2. [How to run the application](#Application-Usage-Guide)
 
 ## Database Setup
 ### I) Installing MySQL Community Edition on Windows 11
@@ -157,3 +157,36 @@ We will be using MySQL Workbench to interact with the `student` database table
 - After scrolling down in the home page, you will be able to see a new connection created in the `MySQL Connections` section. Click on the connection and a new tab will open:
     ![Home_Page_9.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_9.png)
     ![Page_1.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_1.png)
+- In this page, you can create a new schema by left-clicking on the empty space in the `SCHEMAS` tab and selecting the `Create Schema...` option:
+    ![Page_2.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_2.png)
+- A new tab will open in the query editing section. Enter the name of the schema in the `Name` field, don't change the other option fields, and click on the `Apply` button:
+    ![Page_3.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_3.png)
+- In the `Apply SQL Script to Database` dialog box, leave the `Online DDL` options unchanged, and click on the `Apply` button:
+    ![Page_4.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_4.png)
+- The schema should be created successfully. Click on the `Finish` button in the `Apply SQL Script to Database` dialog box:
+    ![Page_5.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_5.png)
+- Please ensure that the name of the schema is `studentdb`, since that is used in the url to connect to the database from the Student Management System App
+- Click on the `studentdb` schema listed in the `SCHEMAS` tab:
+    ![Page_6.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_6.png)
+    ![Page_7.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_7.png)
+- Under the `studentdb` schema option, you will be able to see all the tables created under this schema
+- Click on the `File` menu option in the top menu bar, then select the `Open SQL Script...` option:
+    ![Page_8.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_8.png)
+    ![Page_9.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_9.png)
+- In the `Open SQL Script` dialog box, locate the `Create_Student_Table.sql` file from the App's code base (in the `\resources` folder), single-click to select the file, and click on the `Open` button:
+    ![Page_10.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_10.png)
+- The SQL query for creating the `student` table will open in the query editing section. Click on the little lightning symbol (similar to '⚡') in the upper section of the query editing tab to execute the SQL query:
+    ![Page_11.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_11.png)
+- If the `student` table already exists in the `studentdb` schema, then a warning message will be shown in the `Action Output` section below the query editing tab:
+```genericsql
+17:45:10	CREATE TABLE IF NOT EXISTS student (     id INT AUTO_INCREMENT PRIMARY KEY,     name VARCHAR(100) UNIQUE NOT NULL,     roll_no VARCHAR(15) UNIQUE NOT NULL,     department VARCHAR(100) NOT NULL,     email VARCHAR(100) UNIQUE NOT NULL,     phone VARCHAR(15) UNIQUE NOT NULL,     marks INT NOT NULL,     grade CHAR(1) NOT NULL )	0 row(s) affected, 1 warning(s): 1050 Table 'student' already exists	0.000 sec
+```
+- You can click on the `studentdb` schema in the `SCHEMAS` tab, then click on the `Tables` option to see the created `student` table. If the table is not visible, you can refresh the `SCHEMAS` tab by left-clicking in the empty space of this tab and selecting the `Refresh All` option:
+    ![Page_12.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_12.png)
+- To see the content of the `student` table, you can hover over the `student` table name under the `Tables` option in the `SCHEMAS` tab, then click on the right-most of the 3 icons beside the table name:
+    ![Page_13.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_13.png)
+- I already have some record rows in the table, which you can see in the `Result Grid` tab. If there is no data in the table, an empty row will be displayed below the column header row filled with `null` values:
+    ![Page_14.png](README_Application_Screenshots/MySQL_Workbench_Connection_Tab/Page_14.png)
+
+## Application Usage Guide
+### I) Setting up the code base
