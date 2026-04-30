@@ -136,7 +136,7 @@ If the `mysql` command isn't recognized:
 We will be using MySQL Workbench to interact with the `student` database table
 
 ### II) Database Setup in MySQL Workbench
-#### Step 1: Open MySQL Workbench
+#### Open MySQL Workbench
 
 - Search for `MySQL Workbench` in windows search and open the app
 - You will be able to see the Home Screen similar to the screenshot below:
@@ -147,12 +147,12 @@ We will be using MySQL Workbench to interact with the `student` database table
     ![Home_Page_3.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_3.png)
 - Don't edit any other fields, go to the `Password` field and click on the `Store in vault ...` option:
     ![Home_Page_4.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_4.png)
-- Enter the root password you configured during MySQL installation in the `Password` field in the `Store Password for Connection` dialog box, and click on `Ok` to store the password for future use:
+- Enter the root password you configured during MySQL installation in the `Password` field in the `Store Password for Connection` dialog box, and click on `OK` to store the password for future use:
     ![Home_Page_5.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_5.png)
-- Click on the `Test Connection` option to test the connection to the local MySQL Database. You should be able to see a `MySQL Workbench` dialog box stating that a successful connection was made. Click on `Ok` to dismiss the dialog box:
+- Click on the `Test Connection` option to test the connection to the local MySQL Database. You should be able to see a `MySQL Workbench` dialog box stating that a successful connection was made. Click on `OK` to dismiss the dialog box:
     ![Home_Page_6.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_6.png)
     ![Home_Page_7.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_7.png)
-- Click on `Ok` in the `Setup New Connection` dialog box to connect to the local database server:
+- Click on `OK` in the `Setup New Connection` dialog box to connect to the local database server:
     ![Home_Page_8.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_8.png)
 - After scrolling down in the home page, you will be able to see a new connection created in the `MySQL Connections` section. Click on the connection and a new tab will open:
     ![Home_Page_9.png](README_Application_Screenshots/MySQL_Workbench/Home_Page_9.png)
@@ -190,3 +190,53 @@ We will be using MySQL Workbench to interact with the `student` database table
 
 ## Application Usage Guide
 ### I) Setting up the code base
+#### Step 1: Clone the repository into local storage
+
+- Go to [https://github.com/SarthakGiri32/StudentManagementSystem](https://github.com/SarthakGiri32/StudentManagementSystem)
+- Click on the `Code` option in the Code section of the repository
+- In the menu box that opens, copy the `HTTPS` url for the repository displayed in the `local` section
+- In your local computer, go to the directory where you want to store the repository, then write `cmd` in the top address bar for the directory after replacing the absolute path
+- In the command prompt window, type the following git command:
+```shell
+git clone https://github.com/SarthakGiri32/StudentManagementSystem.git
+```
+- The repository will start cloning into your local directory
+
+#### Step 2: Setup the code in your IDE
+
+A) The IDE used for this step is `IntelliJ IDEA`, although other Java-compatible IDEs also have similar set-up steps.
+
+- Open the `IntelliJ IDEA` App (from the desktop shortcut or from windows search)
+- Click on the `Open` button in the `Projects` tab to open the cloned repository:
+    ![Page_1.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_1.png)
+- In the `Open File or Project` dialog box, navigate to the code repository, single-click to select the repository, and click on the `Select Folder` button:
+    ![Page_2.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_2.png)
+- If you are opening the repository for the first time in the IDE, then a dialog box will open asking whether you trust the author of the project. Select the 'Trust Author' option (paraphrasing), to get full access to view and edit the code (otherwise the code-base will open in restricted mode, which is a read-only mode)
+
+B) We need to add 1 external libraries to the project settings for the code in the IDE:
+
+- `mysql-connector-j`: to connect to the database and process SQL queries through Java
+
+C) You can download the `mysql-connector-j` JAR by searching for it in google  
+D) To add the downloaded JAR to the project settings for the code, follow the steps below
+
+- Click on the gear icon (similar to '⚙️') on the top right section of the IDE window:
+    ![Page_3.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_3.png)
+- Select the `Project Structure...` option in the drop-down menu:
+    ![Page_4.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_4.png)
+- Click on the `Libraries` tab option inside the `Project Structure` dialog box:
+    ![Page_5.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_5.png)
+- Click on the `+` icon in top left section of the `Libraries` tab:
+    ![Page_6.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_6.png)
+- Select the `Java` option in the `New Project Library` drop-down menu:
+    ![Page_7.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_7.png)
+- In the `Select Library Files` dialog box, browse to the downloaded JAR file location, single-click to select the JAR file, and click on the `Open` button:
+    ![Page_8.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_8.png)
+- In the `Choose Modules` dialog box, the project repository is already selected as the target module, so click on the `OK` button:
+    ![Page_9.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_9.png)
+- In the `Project Structure` dialog box, you can see that the `mysql-connector-j` JAR has been added as an external library. Click on the `OK` button to save the changes:
+    ![Page_10.png](README_Application_Screenshots/Codebase_Setup/Intellij_IDEA/Page_10.png)
+
+### II) Launch, Navigation and Using All App Features
+#### Step 1: Launching the App
+
