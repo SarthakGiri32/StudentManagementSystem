@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public abstract class BasePanel extends JPanel implements PanelNames {
 
     // will be used for handling navigation between the various screens of the app
-    protected NavigationController navigationController = NavigationController.getInstance();
+    protected NavigationController navigationController;
 
     // validation guidelines, which will used to display warning messages for invalid user input
     protected static final String validNameGuidelines = """
@@ -59,6 +59,7 @@ public abstract class BasePanel extends JPanel implements PanelNames {
      * Constructor used to initialize the base layout of any screen in the app
      */
     public BasePanel() {
+        navigationController = NavigationController.getInstance();
         setLayout(new BorderLayout(10, 10));
         add(build(), BorderLayout.CENTER);
     }
@@ -85,19 +86,21 @@ public abstract class BasePanel extends JPanel implements PanelNames {
      * @return a student grade
      */
     protected char generateGrade(int marks) {
+        char result;
 
         if (marks >= 90 && marks <= 100) {
-            return 'A';
+            result = 'A';
         } else if (marks >= 80 && marks <= 89) {
-            return 'B';
+            result = 'B';
         } else if (marks >= 70 && marks <= 79) {
-            return 'C';
+            result = 'C';
         } else if (marks >= 60 && marks <= 69) {
-            return 'D';
+            result = 'D';
         } else if (marks >= 50 && marks <= 59) {
-            return 'E';
+            result = 'E';
         } else {
-            return 'F';
+            result = 'F';
         }
+        return result;
     }
 }
