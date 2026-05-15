@@ -84,7 +84,7 @@ C. Accounts and Roles
 - Enter a **strong password** for the `root` account — **save this somewhere safe!**
 - Click **Next** only after confirming the password
 
-**Add a MySQL User Account** *(optional but recommended)*
+**Add a MySQL User Account**
 1. Click **"Add User"** button below the root password section
 2. Fill in the details:
 
@@ -99,6 +99,8 @@ C. Accounts and Roles
 3. Click **OK** to add the user
 4. Repeat to add more users if needed
 5. Click **Next** when done
+
+> 💡 **Important:** Replace the `username` and `password` field values in the `mysqlusercredentials.properties` file inside the `resources` folder with the username and password created in the **_Add a MySQL User Account_** section above. It is necessary for the app login to work and for the database operations in the app.
 
 > 💡 **Tip:** It's good practice to avoid using the `root` account for day-to-day tasks. Create a dedicated user with only the permissions your application needs.
 
